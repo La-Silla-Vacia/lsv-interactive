@@ -1,4 +1,4 @@
-core
+Core Time Interactive files
 ====
 
-Bootstrap files for Time.com interactives
+Time.com interactives are compiled using [Browserify](https://github.com/substack/node-browserify) and bootstrapped onto a page with a Wordpress short code.
