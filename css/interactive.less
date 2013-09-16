@@ -1,0 +1,145 @@
+/* all interactives will be wrapped in a <div> with class "time-interactive" */
+.time-interactive {
+	width: 100%;
+	max-width: 1100px;
+	margin: 5px auto;
+	padding: 5px 0;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 10px sans-serif;
+	line-height: 1em;
+
+	svg { overflow: hidden; }
+
+	@media (max-width: 500px) {
+		padding-left: 5px;
+		padding-right: 5px;	
+	}
+
+	.outlined {
+		border-top: 1px solid #CCC;
+		border-bottom: 1px solid #CCC;
+		padding-top: 20px;
+		padding-bottom: 20px;	
+	}
+
+	.geo_collection path {
+		fill: #CCC;
+		stroke: #999;
+	}
+
+	.headline {
+	    font-size: 24px;
+	    font-weight: 900;
+	    margin: 5px 0;
+		font-family: "franklin-gothic-urw", Helvetica, Arial, sans-serif;
+		line-height: 1em;
+	}
+
+	.intro {
+	    font-size: 12px;
+	    font-weight: 400;
+	    font-weight: normal;
+		font-family: Helvetica, Arial, sans-serif;
+	    margin: 5px 20px 5px 0;
+	    line-height: 1.5em;
+	}
+
+	/* charts */
+	.axis path, .axis line {
+	    fill: none;
+	    stroke: #1a1a1a;
+	    shape-rendering: crispEdges;
+	}
+
+	.axis text {
+	    font-size: 10px;
+		font-family: "franklin-gothic-urw", Helvetica, Arial, sans-serif;
+	}
+
+	/* for filled charts */
+	.area {
+	    stroke-width: 1.5px;
+	    stroke: #999;
+	    fill-opacity: .25;
+	}	
+
+	.ie8_warning {
+		font-size: 12px;
+	}
+
+	.legend {
+		margin: 5px auto;
+
+		.legend-title {
+			font-size: 14px;
+			margin-bottom: 5px;
+		}
+
+		ul {
+			padding: 0;
+			margin: 0;
+			list-style: none;
+			li {
+				display: inline-block;
+				font-family: Arial;
+				font-size: 11px;
+				padding: 2px;
+				text-align: center;
+			}
+		}
+	}
+
+	@media (max-width: 500px) {
+		.legend ul li {
+			font-size: 9px;
+			padding: 1px;
+		}
+	}
+
+	.sourceline {
+		font-size: 12px;
+		text-align: right;
+	}
+
+
+	/* map themes */
+
+	/* mimicking old handdrawn maps */
+	.oldmap {
+		path {
+		  stroke: #473922;
+		  fill: #f2d7ae;
+		}
+	}
+
+	.plain {
+		path {
+		  stroke: #CCC;
+		  fill: #EEE;
+		}
+	}
+
+	/* basic terrain */
+	/* http://2.bp.blogspot.com/-C3L7c1Y1ck4/UZOk1ldMiBI/AAAAAAAACs4/KtymYa4tM78/s1600/Screenshot+2013-05-15+at+12.38.58+AM.jpg */
+
+	.terrain {
+		path {
+		  stroke: #7a9e7c;
+		  fill: #a5d4ad;
+		}
+	}
+
+}
+
+.d3tooltip {
+	font-family: "Arial", sans-serif;
+	font-size: 12px;
+	position: absolute;
+	z-index: 10;
+	max-width: 250px;
+	visibility: hidden;
+	background-color: #FFF;
+	border: 1px solid #CCC;
+	padding: 3px 6px;
+}
+

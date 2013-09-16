@@ -1,0 +1,8 @@
+{
+  "name": "maps",
+  "description": "Convenience method for making topoJSON+D3 maps",
+  "author": {
+    "name": "Chris Wilson",
+    "email": "christopher.wilson@timemagazine.com"
+  }
+}
