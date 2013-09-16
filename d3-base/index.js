@@ -3,6 +3,7 @@
 var components = {};
 module.exports.components = components;
 
+// fail on IE lte 8 before attempting to load d3
 function getInternetExplorerVersion() {
     var rv = -1; // Return value assumes failure.
     var ua = navigator.userAgent;
@@ -26,24 +27,25 @@ if (rv > -1 && rv < 9) {
 
 var d3 = require('d3');
 
-module.exports = function(parent, hght, before) {
+// create a new SVG element with a zoomable layer
+module.exports = function(parent, opts) {
+	opts = opts || {};
 	// setup
 	if (!parent) {
 		console.log("You must supply a parent");
 		return;
 	}
 
-	var zoom = d3.behavior.zoom().scaleExtent([1, 5]);
-
 	var components = {};
-	hght = hght || 0.618;
+	var hght = opts.hght || 0.618;
 
 	// specs
     components.width = $(parent).width();
     // height can be a ratio or a fixed value
     components.height = hght < 1 ? components.width * hght : hght;
 
-    if (before) {
+	// if before, insert at top of parent    
+    if (opts.before) {
     	components.svg = d3.select(parent)
 	    	.insert("svg", ":first-child");
     } else {
@@ -51,29 +53,46 @@ module.exports = function(parent, hght, before) {
     		.append("svg");
     }
 
-    components.g = components.svg
+    components.svg
 		.attr("width", components.width)
-		.attr("height", components.height)
-	    .attr("pointer-events", "all")
-		.call(zoom.on("zoom", redraw))
-		.append("g");
+		.attr("height", components.height);
 
-	function redraw() {
-		var t = d3.event.translate,
-			s = d3.event.scale;
+    // add zoom functionality unless specified as false
+    // zoom should be a two-element array of floats for min and max zoom
+    if (typeof opts.zoom === "undefined" || opts.zoom) {
+    	if (typeof opts.zoom !== "object" || opts.zoom.length < 2) {
+	    	opts.zoom = [1,6];
+    	}
+		var zoom = d3.behavior.zoom().scaleExtent([opts.zoom[0], opts.zoom[1]]);
 
-		var x_over = components.width * (s - 1);
+	    // top-level layer to allow for zooming
+	    components.g = components.svg
+		    .attr("pointer-events", "all")
+			.call(zoom.on("zoom", redraw))
+			.append("g")
+	    	.attr("id", "zoom_layer");
 
-		t[0] = Math.max(-components.width * (s - 1), Math.min(0, t[0]));
-		t[1] = Math.max(-components.height * (s - 1), Math.min(0, t[1]));
-		zoom.translate(t);
-		components.g.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");		
-	}
+		function redraw() {
+			var t = d3.event.translate,
+				s = d3.event.scale;
+			var x_over = components.width * (s - 1);
+
+			t[0] = Math.max(-components.width * (s - 1), Math.min(0, t[0]));
+			t[1] = Math.max(-components.height * (s - 1), Math.min(0, t[1]));
+			zoom.translate(t);
+			components.g.attr("transform", "translate(" + t + ")scale(" + s + ")");		
+			components.g.selectAll("path").style("stroke-width", 1.0 / s)
+		}
+    }
+	
 
 	function resize() { 
-		zoom.scale(1);
-
-		components.g.style("stroke-width", 1).attr("transform", "translate(0,0)scale(1)");		
+		if (zoom) {
+			zoom.scale(1);
+		}
+		if (opts.zoom) {
+			components.g.style("stroke-width", 1).attr("transform", "translate(0,0)scale(1)");		
+		}
 
 		components.width = $(parent).width();
 	    // height can be a ratio or a fixed value
@@ -82,7 +101,6 @@ module.exports = function(parent, hght, before) {
 			.attr("width", components.width)
 			.attr("height", components.height);
 	}
-
 
 	var resizeTimer;
 
@@ -94,71 +112,6 @@ module.exports = function(parent, hght, before) {
 	});
 
 	return components;
-}
-
-
-module.exports.makeLegend = function(svg, title, vals, x, y, dir) {
-	dir = dir || "vert";
-	x = typeof x !== "undefined" ? x : 10;
-	y = typeof y !== "undefined" ? y : 10;
-
-	svg.select("#legend").remove();
-
-	svg.append("text")
-		.attr("x", x)
-		.attr("y", y)
-		.text(title)
-		.attr("class", "subhead");
-
-	var legend = svg
-		.append("g")
-		.attr("id", "legend")
-		.attr("transform", "translate(" + x + "," + (y + 8) + ")");
-
-	var items = legend.selectAll(".legend").data(vals).enter().append("g").attr("class", "legend");
-
-	if (dir[0] == 'v') {
-		var box_width = 20,
-		    box_height = 20;		
-	} else {
-		var box_width = parseInt(svg.attr('width'), 10) / (vals.length + 1),
-		    box_height = 20;				
-	}
-
-
-	items.append("rect")
-		.attr("x", function(d, i) { return (dir[0] === "h") * (box_width + 5) * i; })
-		.attr("y", function(d, i) { return (dir[0] === "v") * (box_height + 5) * i; })
-		.attr("id", function(d, i) { return "back-" + i; })
-		.attr("width", box_width)
-		.attr("height", box_height)
-		.style("fill", function(d) { return d.color; });
-	  
-	items.append("text")
-		.attr("class", "legend_label")    
-		.attr("x", function(d, i) { return (dir[0] === "h") * (box_width + 5) * i + (dir[0] === "v") * (box_width + 5); })
-		.attr("y", function(d, i) { return (dir[0] === "v") * (box_height + 5) * (i + 0.5); })
-		.attr("dy", ".35em")
-		.style("text-anchor", "start")
-		.style("font-size", box_width < 20 ? 10 : 12);
-
-	var max_text = d3.max(items.selectAll("text").map(function(d) {
-		return d[0].offsetWidth;
-	}));
-
-	if (max_text + 6 < box_width) {
-		items.selectAll("text").attr("transform", "translate(3, 10)");
-
-		/*
-		.style("text-anchor", function(d, i) {
-			return (d < vals.length / 2) ? "start" : "end";
-		}); */
-	} else {
-		items.selectAll("text").attr("transform", "translate(3, 10)").html(function(d) {
-			//console.log(d);
-			return "<tspan>" + d.label.split("-")[0] + "-</tspan><tspan>" + d.label.split("-")[1] + "</tspan>";
-		});
-	}
 }
 
 module.exports.makeSizeLegend = function(svg, title, vals, x, y, dir) {
@@ -199,15 +152,17 @@ module.exports.makeSizeLegend = function(svg, title, vals, x, y, dir) {
 		.attr("dy", ".35em")
 		.style("text-anchor", "middle")
 		.style("font-size", box_width < 20 ? 10 : 12)
-		.text(function(d) { return d.label; });     
+		.text(function(d) { return d.label; });
+
 
 }
 
-module.exports.makeFlatLegend = function(title, parent, legend) {
-	$("<div />").addClass("legend-title").html(title).appendTo(parent);
+module.exports.makeLegend = function(title, parent, legend) {
+	if (title) {
+		$("<div />").addClass("legend-title").html(title).appendTo(parent);
+	}
 	$("<ul />").appendTo(parent);
-
-	d3.select("#control_panel .legend ul")
+	d3.select(parent).select("ul")
 		.selectAll("li")
 		.data(legend)
 		.enter()
@@ -215,7 +170,7 @@ module.exports.makeFlatLegend = function(title, parent, legend) {
 		.style("background-color", function(d) {
 			return d.color;
 		})
-		.style("width", 90 / legend.length + "%")
+		.style("width", 96 / legend.length + "%")
 		.style("color", function(d) {
 			var hsl = d3.hsl(d.color);
 			if (hsl.l > 0.70) {
@@ -236,19 +191,42 @@ d3.selection.prototype.toFront = function() {
 
 var tooltip = d3.select("body").append("div").classed("d3tooltip", true);
 
-d3.selection.prototype.tooltip = function(f) {		
+d3.selection.prototype.tooltip = function(over, out, click) {		
 	this //.on("click", function(d) { tooltip.html(typeof f === "function" ? f(d) : f); tooltip.classed("clicked", "true"); tooltip.style("visibility", "visible"); })
-		.on("mouseover", function(d) { 
-			tooltip.html(typeof f === "function" ? f(d) : f); tooltip.style("visibility", "visible");
+		.on("mouseover", function(d, i) { 
+			var html = typeof over === "function" ? over(d, i, this) : over;
+			tooltip.html(html); 
+			if (html && html !== "") {
+				tooltip.style("visibility", "visible");
+			} else {
+				tooltip.style("visibility", "hidden");
+			}
 		})
 		.on("mousemove", function() { 
 			return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
 		})
-		.on("mouseout", function() { 
+		.on("mouseout", function(d, i) { 			
+			if (out) {
+				out(d, i, this);
+			}
 			return tooltip.style("visibility", "hidden");
-		});            
-
-
+		});
+		/*
+		.on("click", function(d, i) { 
+			console.log(d.imclicked);
+			if (!d.hasOwnProperty("imclicked") || !d.imclicked) {
+				d.imclicked = true;
+				tooltip.html(typeof over === "function" ? over(d, i, this) : over); 
+				tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+				tooltip.style("visibility", "visible");
+			} else {
+				d.imclicked = false;
+				if (out) {
+					out();
+				}
+				return tooltip.style("visibility", "hidden");
+			}
+		});  */          
 };
 
 function blockScroll() { 

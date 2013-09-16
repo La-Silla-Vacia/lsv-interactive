@@ -10,10 +10,14 @@ var geo_data = {
 
 }
 
+PREFIX = "http://content.time.com/time/wp/interactives/data/geo/";
+//PREFIX = "../node_modules/maps/topojson/";
+
 var supported_types = {
-	states: "http://content.time.com/time/wp/interactives/data/geo/us.json",
-	counties: "http://content.time.com/time/wp/interactives/data/geo/us.json",
-	countries: "http://content.time.com/time/wp/interactives/data/geo/world_large.json"
+	states: PREFIX + "us.json",
+	counties: PREFIX + "us.json",
+	countries: PREFIX + "world_110m.json",
+	countries_large: PREFIX + "world_50m.json"
 };
 
 var map = function(svg, parent, type, callback, opts) {
@@ -33,12 +37,18 @@ var map = function(svg, parent, type, callback, opts) {
 		return;
 	}
 
-	if (geo_data.hasOwnProperty(supported_types[type])) {
+	var key = type; 
+
+	if (opts.size) {
+		key += "_" + opts.size;
+	}
+
+	if (geo_data.hasOwnProperty(supported_types[key])) {
 		console.log("already loaded that geography.");
-		return init(geo_data[supported_types[type]]);
+		return init(geo_data[supported_types[key]]);
 	} else {
 		jQuery.ajax({
-			url: supported_types[type],
+			url: supported_types[key],
 			dataType: 'jsonp',
 			jsonpCallback: "ticallback",
 	        jsonp: 'callback',
@@ -55,28 +65,31 @@ var map = function(svg, parent, type, callback, opts) {
 			opts.onComplete();
 		}
 
+		console.log(geography);
+
 		var width = parseInt(svg.style('width'), 10);
 		var height = parseInt(svg.style('height'), 10);
-
 		var original_width = width;
 
 		if (type === "countries") {
-			var projection = d3.geo.kavrayskiy7()
+			var projection = d3.geo[geography.projection]()
 		        .translate([width / 2, height / 2])
-		        .scale(width / 4 * 0.72);
+		        .scale(width / 4 * 0.78);
 		} else {
-			var projection = d3.geo.albersUsa()
+			var projection = d3.geo[geography.projection]()
 				.scale(width * 1.25)
 				.translate([width / 2, height / 2]);
 		}
 
 		var path = d3.geo.path()
-		    .projection(projection);		
+		    .projection(geography.preprojected ? null : projection);		
 
 		var layer = parent.append("g")
 			.attr("id", id || type)
 			.classed("geo_collection", true)
 			.classed(id || type, true);
+
+		geography = geography.geography;
 
 		if (borders) {
 			var stroke_width = opts.stroke_width || 1;
@@ -84,19 +97,24 @@ var map = function(svg, parent, type, callback, opts) {
 				.data(topojson.feature(geography, geography.objects[type]).features)
 				.enter()
 			  .append("path")
-				.attr("d", path)
-		    	.style("stroke-width", stroke_width);    	
+		    	.attr("d", function(d) {
+		    		return path(d);
+		    	})
+		    	.attr("id", function(d) { return d.id; })
+		    	.style("stroke-width", stroke_width);    	 
 
 		} else {
 			var stroke_width =  opts.stroke_width || 1;
 			layer.append("path")
 		    	.datum(topojson.mesh(geography, geography.objects[type], function(a, b) { return a !== b; }))
-		    	.attr("d", path)
+		    	.attr("d", function(d) {
+		    		return path(d);
+		    	})
 		    	.style("stroke-width", stroke_width)	    	
 		    	.style("fill", "none");
 		}
 
-		//layer.attr("transform", "translate(0,100)");
+		//var original_width = layer[0][0].getBBox().width;
 
 		var resizeTimer;
 
@@ -110,14 +128,12 @@ var map = function(svg, parent, type, callback, opts) {
 		function resize() {
 			var width = parseInt(svg.attr('width'), 10);
 			var height = parseInt(svg.attr('height'), 10);
-
-
-
 			var z = width / original_width;
+			//var overflow = width * (1-z) / 2;
+			//overflow = -layer[0][0].getBBox().x;
 
-			layer.selectAll("path").style("stroke-width", stroke_width * original_width / Math.max(original_width, 900));
+			layer.selectAll("path").style("stroke-width", stroke_width / z );
 			layer.attr("transform", "scale(" + z + "," + z + ")");
-
 
 			//layer.selectAll("path").attr("d", path);
 		}

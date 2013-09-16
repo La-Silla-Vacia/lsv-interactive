@@ -1,7 +1,7 @@
 (function($) {
-
 	// interactive CSS file
-	require('../../../css/interactive.js')
+	require('../css/interactive.js')
+	require("jquery-highlight");
 
 	// very basic setup for the element that will hold the interactive
 	module.exports.make = function(el, opts) {
@@ -33,6 +33,13 @@
 			$("<div />", {
 				html: opts.intro
 			}).addClass("intro").appendTo($el);
+
+			if (opts.highlight_instructions) {
+				$(".time-interactive .intro").highlight("mouse over");
+				$(".time-interactive .intro").highlight("click");
+				$(".time-interactive .intro").highlight("drag");
+			}
+
 		}
 
 		// universal tooltip
@@ -56,11 +63,38 @@
 		});
 	}
 
+	module.exports.loadCSS = function(url) {
+		var $head = $("head");
+		var $headlinklast = $head.find("link[rel='stylesheet']:last");
+		var linkElement = "<link rel='stylesheet' href='" + url + "' type='text/css'>";
+		if ($headlinklast.length){
+		   $headlinklast.after(linkElement);
+		}
+		else {
+		   $head.append(linkElement);
+		}
+	}
+
+
 	module.exports.commafy = function(val){
+		if (typeof val === "string") {
+			val = parseInt(val, 10);
+		}
+
 	    while (/(\d+)(\d{3})/.test(val.toString())){
 	      val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
 	    }
 	    return val;
 	}
 
+	module.exports.unique = function(arr) {
+	    var u = {}, a = [];
+	    for(var i = 0, l = arr.length; i < l; ++i){
+	        if(!u.hasOwnProperty(arr[i])) {
+	            a.push(arr[i]);
+	            u[arr[i]] = 1;
+	        }
+	    }
+	    return a;
+	}
 }(jQuery));
