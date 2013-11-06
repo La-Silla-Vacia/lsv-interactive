@@ -10,14 +10,17 @@ var geo_data = {
 
 }
 
-PREFIX = "http://content.time.com/time/wp/interactives/data/geo/";
-//PREFIX = "../node_modules/maps/topojson/";
+//PREFIX = "http://content.time.com/time/wp/interactives/data/geo/";
+//PREFIX = "../../node_modules/maps/topojson/";
+//PREFIX = "/data/geo/"
+PREFIX = "/Dropbox/Private/time/data/geo/"
 
 var supported_types = {
-	states: PREFIX + "us.json",
-	counties: PREFIX + "us.json",
+	states: PREFIX + "states.json",
+	counties: PREFIX + "counties.json",
 	countries: PREFIX + "world_110m.json",
-	countries_large: PREFIX + "world_50m.json"
+	countries_large: PREFIX + "world_50m.json",
+	congress: PREFIX + "congress.json"
 };
 
 var map = function(svg, parent, type, callback, opts) {
@@ -43,6 +46,10 @@ var map = function(svg, parent, type, callback, opts) {
 		key += "_" + opts.size;
 	}
 
+	if (!opts.offset) {
+		opts.offset = [0,0,1];
+	}
+
 	if (geo_data.hasOwnProperty(supported_types[key])) {
 		console.log("already loaded that geography.");
 		return init(geo_data[supported_types[key]]);
@@ -56,6 +63,8 @@ var map = function(svg, parent, type, callback, opts) {
 			async: false,
 			success: function(d) {
 				init(d);
+			},
+			error: function(a,b,c) {
 			}
 		});
 	}
@@ -65,31 +74,35 @@ var map = function(svg, parent, type, callback, opts) {
 			opts.onComplete();
 		}
 
-		console.log(geography);
-
 		var width = parseInt(svg.style('width'), 10);
 		var height = parseInt(svg.style('height'), 10);
 		var original_width = width;
 
 		if (type === "countries") {
+			console.log(width);
 			var projection = d3.geo[geography.projection]()
-		        .translate([width / 2, height / 2])
-		        .scale(width / 4 * 0.78);
+		        .translate([900 / 2 + opts.offset[0], 450 * 0.6 + opts.offset[1]])
+		        .scale(900 / 4 * 0.78 * (opts.offset[2] || 1));
 		} else {
-			var projection = d3.geo[geography.projection]()
-				.scale(width * 1.25)
-				.translate([width / 2, height / 2]);
+			geography.preprojected = true;
+			var projection = d3.geo.albersUsa();
 		}
 
-		var path = d3.geo.path()
-		    .projection(geography.preprojected ? null : projection);		
+		if (!geography.preprojected) {
+			var path = d3.geo.path()
+			    .projection(projection);		
+		} else {
+			var path = d3.geo.path().projection(null);
+		}
 
 		var layer = parent.append("g")
 			.attr("id", id || type)
 			.classed("geo_collection", true)
 			.classed(id || type, true);
 
-		geography = geography.geography;
+		if (geography.hasOwnProperty("geography")) {
+			geography = geography.geography;
+		}
 
 		if (borders) {
 			var stroke_width = opts.stroke_width || 1;
@@ -128,17 +141,19 @@ var map = function(svg, parent, type, callback, opts) {
 		function resize() {
 			var width = parseInt(svg.attr('width'), 10);
 			var height = parseInt(svg.attr('height'), 10);
-			var z = width / original_width;
+			var z = width / 900;
+			console.log(width, z);
 			//var overflow = width * (1-z) / 2;
 			//overflow = -layer[0][0].getBBox().x;
 
 			layer.selectAll("path").style("stroke-width", stroke_width / z );
-			layer.attr("transform", "scale(" + z + "," + z + ")");
+			layer.attr("transform", "scale(" + z + "," + z + ")");//translate(" + opts.offset[0] + "," + opts.offset[1] + ")");
 
 			//layer.selectAll("path").attr("d", path);
 		}
 		resize();
 		callback({
+			data: topojson.feature(geography, geography.objects[type]).features,
 			projection: projection
 		});
 	}

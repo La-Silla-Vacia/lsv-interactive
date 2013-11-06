@@ -57,12 +57,25 @@ module.exports = function(parent, opts) {
 		.attr("width", components.width)
 		.attr("height", components.height);
 
+	function redraw() {
+		var t = d3.event.translate,
+			s = d3.event.scale;
+		var x_over = components.width * (s - 1);
+
+		t[0] = Math.max(-components.width * (s - 1), Math.min(0, t[0]));
+		t[1] = Math.max(-components.height * (s - 1), Math.min(0, t[1]));
+		zoom.translate(t);
+		components.g.attr("transform", "translate(" + t + ")scale(" + s + ")");		
+		components.g.selectAll("path").style("stroke-width", 1.0 / s);
+	}
+
     // add zoom functionality unless specified as false
     // zoom should be a two-element array of floats for min and max zoom
-    if (typeof opts.zoom === "undefined" || opts.zoom) {
+    if (opts.zoom) {
     	if (typeof opts.zoom !== "object" || opts.zoom.length < 2) {
 	    	opts.zoom = [1,6];
     	}
+
 		var zoom = d3.behavior.zoom().scaleExtent([opts.zoom[0], opts.zoom[1]]);
 
 	    // top-level layer to allow for zooming
@@ -72,22 +85,10 @@ module.exports = function(parent, opts) {
 			.append("g")
 	    	.attr("id", "zoom_layer");
 
-		function redraw() {
-			var t = d3.event.translate,
-				s = d3.event.scale;
-			var x_over = components.width * (s - 1);
-
-			t[0] = Math.max(-components.width * (s - 1), Math.min(0, t[0]));
-			t[1] = Math.max(-components.height * (s - 1), Math.min(0, t[1]));
-			zoom.translate(t);
-			components.g.attr("transform", "translate(" + t + ")scale(" + s + ")");		
-			components.g.selectAll("path").style("stroke-width", 1.0 / s)
-		}
     }
 	
-
 	function resize() { 
-		if (zoom) {
+		if (opts.zoom) {
 			zoom.scale(1);
 		}
 		if (opts.zoom) {
@@ -158,11 +159,14 @@ module.exports.makeSizeLegend = function(svg, title, vals, x, y, dir) {
 }
 
 module.exports.makeLegend = function(title, parent, legend) {
+	$("<div/>").addClass("legend").appendTo(parent);
+	var leg = $(parent).find(".legend");
 	if (title) {
-		$("<div />").addClass("legend-title").html(title).appendTo(parent);
+		$("<div />").addClass("legend-title").html(title).appendTo(leg);
 	}
-	$("<ul />").appendTo(parent);
-	d3.select(parent).select("ul")
+	$("<ul />").appendTo(leg);
+
+	d3.select(parent).select(".legend").select("ul")
 		.selectAll("li")
 		.data(legend)
 		.enter()
@@ -211,6 +215,7 @@ d3.selection.prototype.tooltip = function(over, out, click) {
 			}
 			return tooltip.style("visibility", "hidden");
 		});
+	return this;
 		/*
 		.on("click", function(d, i) { 
 			console.log(d.imclicked);

@@ -18,13 +18,24 @@ var chart = function(parent, opts) {
 
 	var original_width = width;
 
+	if (opts.title) {
+		parent.append("text")
+		    .attr("x", width / 2)
+		    .attr("y", 25)
+		    .style("text-anchor", "middle")
+		    .attr("class", "chart_title")
+		    .text(opts.title);
+	}
+
 	var layer = parent.append("g")
 		.classed("chart", true)
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-	
-	var scales = [];
+	// the axes should NOT be resized with a transformation -- much better to resize them directly to allow for labels to condence
+	// anything on this sublayer WILL resize with change in screen size
+	var resize_layer = layer.append("g");
 
+	var scales = [];
 
 	var resizeTimer;
 
@@ -38,28 +49,42 @@ var chart = function(parent, opts) {
 	var stroke_width = 1;
 
 	function resize() {
-		width = parseInt(parent.style('width'), 10) - margin.right - margin.left;
-		height = parseInt(parent.style('height'), 10) - margin.top - margin.bottom;
-		var z = width / original_width;
+		var w = parseInt(parent.style('width'), 10) - margin.right - margin.left;
+		var h = parseInt(parent.style('height'), 10) - margin.top - margin.bottom;
+		var z = w / original_width;
 
-		layer.selectAll("path").style("stroke-width", stroke_width / z );
+		width = w;
+		height = h;
+
+		resize_layer.attr("transform", "scale(" + z + ",1)");
 
 		scales.forEach(function(obj) {
 			obj.resize(z);
 		});
+
+		if (opts.resize) {
+			opts.resize(w, h, z);
+		}
+
 	}
 	//resize();
 	
 
 	return {
 		g: layer,
+		canvas: resize_layer,
 		height: height,
 		width: width,
+		resize: function(rf) {
+			opts.resize = rf;
+		},
 		makeScale: function(data, dir, opts) {
 			dir = dir || "x";
 			opts = opts || {};
 
-			opts.offset = typeof opts.offset === "undefined" ? height : opts.offset;
+			if (typeof opts.offset === "undefined") {
+				opts.offset = dir.toLowerCase() === "x" ? height : 0;
+			}
 			opts.domain = opts.domain || d3.extent(data);
 			if (typeof opts.min !== "undefined") {
 				opts.domain[0] = opts.min;	
@@ -70,51 +95,93 @@ var chart = function(parent, opts) {
 
 			opts.type = opts.type || "quantitative";
 
-			var scale = opts.type[0].toLowerCase() === "t" ? d3.time.scale() : d3.scale.linear();
+			var scale;
+			switch(opts.type) {
+				case "time": scale = d3.time.scale(); break;
+				case "ordinal": scale = d3.scale.ordinal(); break;
+				default: scale = d3.scale.linear(); break;
+			}
 
-			scale.range(dir.toLowerCase() === "x" ? [0, width] : [height, 0])
-				.domain(opts.domain);
-
-			var axis = d3.svg.axis()
-			    .scale(scale);
+			if (opts.type === "ordinal") {
+				if (opts.range) {
+					scale.rangeRoundBands(opts.range).domain(opts.domain);
+				} else {
+					scale.rangeRoundBands(dir.toLowerCase() === "x" ? [0, width] : [height, 0]).domain(opts.domain);
+				}
+			} else {
+				if (opts.range) {
+					scale.range(opts.range).domain(opts.domain);
+				} else {					
+					scale.range(dir.toLowerCase() === "x" ? [0, width] : [height, 0]).domain(opts.domain);
+				}
+			}
+			
+			var axis = d3.svg.axis().scale(scale);
 
 			if (opts.tick_format) {
 				axis.tickFormat(opts.tick_format);
 			}
 
-			var ax = layer.append("g").attr("class", "axis");
+			if (!opts.hidden) {
 
-			if (opts.id) {
-				ax.attr("id", opts.id);	
-			}
+				var ax = layer.append("g").attr("class", dir.toLowerCase() + " axis");
 
-			if (dir.toLowerCase() === "x") {
-				ax.attr("transform", "translate(0," + opts.offset + ")")
-				axis.orient("bottom");
-			} else {
-				ax.attr("transform", "translate(" + opts.offset + ", 0)")
-				axis.orient("left");
-				if (opts.label) {
-					ax.append("text")
-					    .attr("transform", "rotate(-90)")
-					    .attr("y", 6)
-					    .attr("dy", ".71em")
-					    .style("text-anchor", "end")
-					    .attr("class", "axis_label")
-					    .text(opts.label);
+				if (opts.id) {
+					ax.attr("id", opts.id);	
 				}
+
+				if (dir.toLowerCase() === "x") {
+					opts.orientation = opts.orientation || "bottom";
+					if (opts.orientation === "top") {
+						ax.attr("transform", "translate(0,0)")
+					} else {
+						ax.attr("transform", "translate(0," + opts.offset + ")")
+					}
+					axis.orient(opts.orientation);
+					if (opts.label) {
+						ax.append("text")
+						    .attr("x", width)
+						    .attr("y", opts.orientation === "top" ? -25 : 25)
+						    .style("text-anchor", "end")
+						    .attr("class", "axis_label")
+						    .text(opts.label);
+					}
+				} else {
+					ax.attr("transform", "translate(" + opts.offset + ", 0)")
+					axis.orient("left");
+					if (opts.label) {
+						ax.append("text")
+						    .attr("transform", "rotate(-90)")
+						    .attr("x", opts.label_offset || 0)
+						    .attr("y", -35)
+						    .attr("dy", ".71em")
+						    .style("text-anchor", "end")
+						    .attr("class", "axis_label")
+						    .text(opts.label);
+					}
+				}
+
+				ax.call(axis);
 			}
 
-				
-			ax.call(axis);
-
-			var update = function() {
-				ax.call(axis);
+			var update = function(dur) {
+				if (dur) {
+					ax.transition(dur).call(axis);
+				} else {
+					ax.call(axis);
+				}
 			}
 
 
 			var resize = function (z) {
-				scale.range(dir.toLowerCase() === "x" ? [0, width] : [height, 0])
+				if (opts.type === "ordinal") {
+					scale.rangeRoundBands(dir.toLowerCase() === "x" ? [0, width] : [height, 0])
+						.domain(opts.domain);
+				} else {
+					scale.range(dir.toLowerCase() === "x" ? [0, width] : [height, 0])
+						.domain(opts.domain);
+				}
+
 				if (opts.resize) {
 					opts.resize(scale, axis, width, height, z);
 				}
