@@ -56,22 +56,29 @@
 		return $el.get(0);
 	}
 
-	function addControlPanel(el) {
-		if (!$(el).find("#control_panel").length) {
+	function addControlPanel(el, id) {
+		if (!id) {
+			id = "control_panel";
+		}
+		// create it if it doesn't already exist
+		if (!$(el).find("#" + id).length) {
 			$("<div />", {
-				id: "control_panel"
+				id: id
 			})
 			.addClass("tw-bs control_panel")
-			//.css("display", "inline-block")
 			.appendTo(el);		
 		}
-		return $(el).find("#control_panel");
+		return $(el).find("#" + id);
 	}
 
 	module.exports.addControlPanel = addControlPanel;
 
-	module.exports.buttonGroup = function(el, buttons, callback) {
-		var cp = addControlPanel(el);
+	module.exports.buttonGroup = function(el, buttons, cp_id, callback) {
+		if (arguments.length == 3) {
+			callback = cp_id;
+			cp_id = "control_panel";
+		}
+		var cp = addControlPanel(el, cp_id);
 		var group = $("<div />").addClass("btn-group").appendTo(cp);
 		//console.log(cp, group);
 		$.each(buttons, function(i, v) {
@@ -97,13 +104,39 @@
 	}
 
 	module.exports.slider = function(el, opts) {
-		var cp = addControlPanel(el);
-		$("<div />").attr("id", opts.id).appendTo(cp).css("width", (opts.width || 300) + "px");
-		var slider = $("#" + opts.id).slider(opts);
-		return slider;
+		opts = opts || {};
+		opts.cp_id = opts.cp_id || "control_panel";
+		var cp = addControlPanel(el, opts.cp_id);
+		var sl = $("<div />").addClass("bs_slider").appendTo(cp);
+		var slide = sl.slider(opts);
+
+		if (opts.label) {
+			var mylabel = $("<div />", {
+				html: opts.label
+			}).addClass("slider_label").appendTo("#" + opts.id);
+			if (opts.orientation && opts.orientation == "vertical") {
+				$(mylabel).css({ 
+					transform: 'rotate(90deg)',
+					'-ms-transform':'rotate(90deg)', 
+					'-webkit-transform':'rotate(90deg)', 
+					"margin-left": 20
+				});
+			}
+		}
+
+		if (!opts.orientation || opts.orientation == "horizontal") {
+			$("#" + opts.id).css("width", (opts.width || 300) + "px");
+		} else {
+			$("#" + opts.id).css("height", (opts.width || 300) + "px");
+		}
+		
+		return slide;
 	}
 
-	module.exports.loadJSON = function(filename, callback) {
+	module.exports.loadJSON = function(filename, callback, err) {
+		if (!err) {
+			err = function(err) { console.log(err); }
+		}
 		jQuery.ajax({
 			url: filename,
 			dataType: 'jsonp',
@@ -113,6 +146,11 @@
 			async: false,
 			success: function(d) {
 				callback(d);
+			},
+			error: function() {
+				if (err) {
+					err();
+				}
 			}
 		});
 	}

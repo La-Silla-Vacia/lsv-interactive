@@ -1,0 +1,22 @@
+{
+    "name": "time-interactive",
+    "version": "0.0.1",
+    "description": "Bootstrap files for Time.com interactives and graphics",
+    "main": "index.js",
+    "bin": {
+        "time-interactive": "bin/generate.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/TimeMagazine/time-interactive.git"
+    },
+    "dependencies": {
+        "browserify": ">= 2.0.0"
+    },
+    "author": {
+        "name" : "Chris Wilson",
+        "email" : "wilson@mechanicalscribe.com",
+        "url" : "http://mechanicalscribe.com"
+    },
+    "scripts" : {}
+}

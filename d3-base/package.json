@@ -1,8 +1,0 @@
-{
-  "name": "d3-base",
-  "description": "Setup for common D3 visualizations",
-  "author": {
-    "name": "Chris Wilson",
-    "email": "christopher.wilson@timemagazine.com"
-  }
-}

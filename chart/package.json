@@ -1,8 +1,0 @@
-{
-  "name": "charts",
-  "description": "Convenience method for making D3 charts",
-  "author": {
-    "name": "Chris Wilson",
-    "email": "christopher.wilson@timemagazine.com"
-  }
-}
