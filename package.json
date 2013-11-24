@@ -11,7 +11,9 @@
         "url": "https://github.com/TimeMagazine/time-interactive.git"
     },
     "dependencies": {
-        "browserify": ">= 2.0.0"
+        "browserify": ">= 2.0.0",
+        "node-lessify": ">= 0.0.2",
+        "node-underscorify": ">= 0.0.3"
     },
     "author": {
         "name" : "Chris Wilson",
