@@ -1,11 +1,10 @@
 (function($) {
 	// interactive CSS file
-	require('../../../css/interactive.js')
-	require("jquery-highlight");
+	require("./src/interactive.less")
+	require("./src/jquery.highlight.js");
 
-	//var slider = require("bootstrap-slider");
+	// this assumes there is already a <div> on the page with the correct id, which Wordpress should have created (see README)
 
-	// very basic setup for the element that will hold the interactive
 	module.exports.make = function(el, opts) {
 		opts = opts || {};
 		// make el a $ object
@@ -18,6 +17,8 @@
 			console.log("Object not found;");
 			return;
 		}
+
+		// ought to already have this, but let's be sure
 		$el.addClass("time-interactive");
 
 		if (!opts.keepScreenshot) {
@@ -56,83 +57,6 @@
 		return $el.get(0);
 	}
 
-	function addControlPanel(el, id) {
-		if (!id) {
-			id = "control_panel";
-		}
-		// create it if it doesn't already exist
-		if (!$(el).find("#" + id).length) {
-			$("<div />", {
-				id: id
-			})
-			.addClass("tw-bs control_panel")
-			.appendTo(el);		
-		}
-		return $(el).find("#" + id);
-	}
-
-	module.exports.addControlPanel = addControlPanel;
-
-	module.exports.buttonGroup = function(el, buttons, cp_id, callback) {
-		if (arguments.length == 3) {
-			callback = cp_id;
-			cp_id = "control_panel";
-		}
-		var cp = addControlPanel(el, cp_id);
-		var group = $("<div />").addClass("btn-group").appendTo(cp);
-		//console.log(cp, group);
-		$.each(buttons, function(i, v) {
-			var button = $("<button />", {
-				id: v[0],
-				html: v[1]
-			}).addClass("btn").addClass("btn-default").appendTo(group);
-			if (v[2]) {
-				button.addClass("active");
-			}
-		});
-
-		group.find("button").click(function(e, v) {
-			group.find("button").removeClass("active");
-			$(e.target).addClass("active");
-		    var key = $(e.target).attr("id"),
-		    	val = $(e.target).html();
-		    if (callback) {
-		    	callback(key, val);
-		    }
-		});
-		return group;
-	}
-
-	module.exports.slider = function(el, opts) {
-		opts = opts || {};
-		opts.cp_id = opts.cp_id || "control_panel";
-		var cp = addControlPanel(el, opts.cp_id);
-		var sl = $("<div />").addClass("bs_slider").appendTo(cp);
-		var slide = sl.slider(opts);
-
-		if (opts.label) {
-			var mylabel = $("<div />", {
-				html: opts.label
-			}).addClass("slider_label").appendTo("#" + opts.id);
-			if (opts.orientation && opts.orientation == "vertical") {
-				$(mylabel).css({ 
-					transform: 'rotate(90deg)',
-					'-ms-transform':'rotate(90deg)', 
-					'-webkit-transform':'rotate(90deg)', 
-					"margin-left": 20
-				});
-			}
-		}
-
-		if (!opts.orientation || opts.orientation == "horizontal") {
-			$("#" + opts.id).css("width", (opts.width || 300) + "px");
-		} else {
-			$("#" + opts.id).css("height", (opts.width || 300) + "px");
-		}
-		
-		return slide;
-	}
-
 	module.exports.loadJSON = function(filename, callback, err) {
 		if (!err) {
 			err = function(err) { console.log(err); }
@@ -167,7 +91,6 @@
 		}
 	}
 
-
 	module.exports.commafy = function(val){
 		if (typeof val === "string") {
 			val = parseInt(val, 10);
@@ -177,16 +100,5 @@
 	      val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
 	    }
 	    return val;
-	}
-
-	module.exports.unique = function(arr) {
-	    var u = {}, a = [];
-	    for(var i = 0, l = arr.length; i < l; ++i){
-	        if(!u.hasOwnProperty(arr[i])) {
-	            a.push(arr[i]);
-	            u[arr[i]] = 1;
-	        }
-	    }
-	    return a;
 	}
 }(jQuery));
