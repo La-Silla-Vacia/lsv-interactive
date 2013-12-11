@@ -24,6 +24,9 @@
         "url" : "http://mechanicalscribe.com"
     },
     "scripts" : {},
+    "browserify": {
+        "transform": ["node-lessify", "node-underscorify"]
+    },
     "time-interactive": {
         "app_dir": "../../apps/development/"
     }
