@@ -13,6 +13,6 @@
     },
     "scripts" : {},
     "browserify": {
-        "transform": ["node-lessify", "node-underscorify", "node-jsonify"]
+        "transform": ["node-lessify", "node-underscorify", "node-csvify"]
     }
 }

@@ -47,19 +47,11 @@ By default, this creates a new folder in the ```../../apps/development/``` folde
 
 This script creates five files:
 
- + debug.js
- + styles.less
- + package.json
- + test.html
- + index.html
-
-Let's go over them:
-
-```debug.js``` is your main file for writing Javascript. You'll see some default code in there to get you started.
-```styles.less``` is the stylesheet for this interactive, using the [LESS](http://lesscss.org/) dynamic style sheet language. By default, ```debug.js``` already containes the line ```require("./styles.less");```, which is needed to include it in the script. The styles here will be automatically compiled into CSS and dynamically added to the DOM when the script fires.
-```package.json```: A bare-bones set of instructions for Node and Browserify, including transforms that Browserify needs to correctly include LESS files in the interactive. Make sure you ran ```npm install``` after you cloned this repo, as that will automatically download these modules.
-```test.html```: An HTML file for previewing your app after it is compiled.
-```index.html```: Very similar to ```test.html```, but better replicates this Time.com environment.
++ ```debug.js``` is your main file for writing Javascript. You'll see some default code in there to get you started.
++ ```styles.less``` is the stylesheet for this interactive, using the [LESS](http://lesscss.org/) dynamic style sheet language. By default, ```debug.js``` already containes the line ```require("./styles.less");```, which is needed to include it in the script. The styles here will be automatically compiled into CSS and dynamically added to the DOM when the script fires.
++ ```package.json```: A bare-bones set of instructions for Node and Browserify, including transforms that Browserify needs to correctly include LESS files in the interactive. Make sure you ran ```npm install``` after you cloned this repo, as that will automatically download these modules.
++ ```test.html```: An HTML file for previewing your app after it is compiled.
++ ```index.html```: Very similar to ```test.html```, but better replicates this Time.com environment.
 
 ## Writing an app for Time.com
 

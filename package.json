@@ -14,8 +14,9 @@
         "mkdirp": "*",
         "underscore": "*",
         "browserify": ">= 2.0.0",
-        "node-lessify": ">= 0.0.2",
-        "node-underscorify": ">= 0.0.3"
+        "node-lessify": ">= 0.0.3",
+        "node-underscorify": ">= 0.0.3",
+        "node-csvify": ">= 0.0.0"
     },
     "author": {
         "name" : "Chris Wilson",
@@ -23,9 +24,6 @@
         "url" : "http://mechanicalscribe.com"
     },
     "scripts" : {},
-    "browserify": {
-        "transform": ["node-lessify"]
-    },
     "time-interactive": {
         "app_dir": "../../apps/development/"
     }
