@@ -1,10 +1,8 @@
 (function($) {
 	// interactive CSS file
 	require("./src/interactive.less")
-	require("./src/jquery.highlight.js");
 
 	// this assumes there is already a <div> on the page with the correct id, which Wordpress should have created (see README)
-
 	module.exports.make = function(el, opts) {
 		opts = opts || {};
 		// make el a $ object
@@ -36,15 +34,10 @@
 			$("<div />", {
 				html: opts.intro
 			}).addClass("intro").appendTo($el);
-
-			if (opts.highlight_instructions) {
-				$(".time-interactive .intro").highlight("mouse over");
-				$(".time-interactive .intro").highlight("click");
-				$(".time-interactive .intro").highlight("drag");
-			}
 		}
 
-		if (typeof (opts.graybar) === "undefined" || opts.graybar) {
+		//if (typeof (opts.graybar) === "undefined" || opts.graybar) {
+		if (opts.graybar) {
 			$("<div />", {
 				html: "&nbsp;"
 			}).addClass("graybar").appendTo($el);
@@ -79,17 +72,17 @@
 		});
 	}
 
-	module.exports.loadCSS = function(url) {
-		var $head = $("head");
-		var $headlinklast = $head.find("link[rel='stylesheet']:last");
-		var linkElement = "<link rel='stylesheet' href='" + url + "' type='text/css'>";
-		if ($headlinklast.length){
-		   $headlinklast.after(linkElement);
-		}
-		else {
-		   $head.append(linkElement);
-		}
+	module.exports.onresize = function(f, delay) {
+		delay = typeof delay === undefined ? 100 : delay;
+		var resizeTimer;
+		$(window).resize(function() { 
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(function() {
+				f();
+			}, delay);
+		});
 	}
+
 
 	module.exports.commafy = function(val){
 		if (typeof val === "string") {
@@ -101,4 +94,12 @@
 	    }
 	    return val;
 	}
+
+	module.exports.guid = function() {
+		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+		    return v.toString(16);
+		});		
+	}
+
 }(jQuery));

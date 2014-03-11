@@ -13,7 +13,7 @@ try {
 }
 
 
-var app_dir = opts["time-interactive"].app_dir || "../../apps/development";
+var app_dir = opts["time-interactive"].app_dir || "./";
 
 if (process.argv.length < 4) {
 	console.log("Please enter an id and a headline");
