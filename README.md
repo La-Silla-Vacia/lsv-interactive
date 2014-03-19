@@ -73,10 +73,10 @@ To run browserify in Intellij:
     Goto IntelliJ - Preferences - External Tools - Click the plus button on the lower, left corner:
     http://screencast.com/t/rAAc50bQyWWg
 
-    To add the browserify command to a toolbar:
-    Goto IntelliJ - Preferences - Menus and Toolbars,Click on the arrow next to "Main Toolbar",
-    select the position the browserify is supposed to appear, click on "Add After" button and add the browserify
-    external tool action.
+To add the browserify command to a toolbar:
+Goto IntelliJ - Preferences - Menus and Toolbars,Click on the arrow next to "Main Toolbar",
+select the position the browserify is supposed to appear, click on "Add After" button and add the browserify
+external tool action.
 
 
 ### time-interactive() options
