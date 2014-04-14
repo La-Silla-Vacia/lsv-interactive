@@ -1,5 +1,5 @@
 (function($) {
-	// interactive CSS file
+	// base CSS file
 	require("./src/interactive.less")
 
 	// this assumes there is already a <div> on the page with the correct id, which Wordpress should have created (see README)
@@ -19,6 +19,7 @@
 		// ought to already have this, but let's be sure
 		$el.addClass("time-interactive");
 
+		// remove the default screenshot placed by the short code unless you specify you want to keep
 		if (!opts.keepScreenshot) {
 			// remove screenshot
 			$el.find(".screenshot").remove();	
@@ -36,19 +37,17 @@
 			}).addClass("intro").appendTo($el);
 		}
 
-		//if (typeof (opts.graybar) === "undefined" || opts.graybar) {
-		if (opts.graybar) {
-			$("<div />", {
-				html: "&nbsp;"
-			}).addClass("graybar").appendTo($el);
-		}
-
 		// universal tooltip
 		$("<div />").addClass("tooltip").appendTo(".time-interactive").get(0);
 
 		// return the DOM object
 		return $el.get(0);
 	}
+
+	/* CONVENIENCE FUNCTIONS */
+
+	// right now we are unable to load JSON asynchronously from Time CDN. (See https://timedotcom.atlassian.net/browse/TIM-3567)
+	// This hack allows you to load JSON files with JSON-P IF they are wrapped in ticallback()
 
 	module.exports.loadJSON = function(filename, callback, err) {
 		if (!err) {
@@ -72,6 +71,7 @@
 		});
 	}
 
+	// add a function to the page resize without overwriting other listeners
 	module.exports.onresize = function(f, delay) {
 		delay = typeof delay === undefined ? 100 : delay;
 		var resizeTimer;
@@ -83,7 +83,7 @@
 		});
 	}
 
-
+	// add commas to numbers over 1000
 	module.exports.commafy = function(val){
 		if (typeof val === "string") {
 			val = parseInt(val, 10);
@@ -95,6 +95,7 @@
 	    return val;
 	}
 
+	// generate a unique GUID
 	module.exports.guid = function() {
 		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 		    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
