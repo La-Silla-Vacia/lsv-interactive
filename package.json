@@ -16,7 +16,8 @@
         "browserify": ">= 2.0.0",
         "node-lessify": ">= 0.0.3",
         "node-underscorify": ">= 0.0.3",
-        "node-csvify": ">= 0.0.0"
+        "node-csvify": ">= 0.0.0",
+        "ncp": "*"
     },
     "author": {
         "name" : "Chris Wilson",
@@ -28,6 +29,6 @@
         "transform": ["node-lessify", "node-underscorify"]
     },
     "time-interactive": {
-        "app_dir": "../../apps/development/"
+        "app_dir": "../../apps/projects/"
     }
 }

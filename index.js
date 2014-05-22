@@ -51,7 +51,7 @@
 
 	module.exports.loadJSON = function(filename, callback, err) {
 		if (!err) {
-			err = function(err) { console.log(err); }
+			err = function(e, f, g) { console.log(e, f, g); }		
 		}
 		jQuery.ajax({
 			url: filename,
@@ -63,9 +63,12 @@
 			success: function(d) {
 				callback(d);
 			},
-			error: function() {
+			error: function(e, f, g) {
 				if (err) {
-					err();
+					err(e, f, g);
+				}
+				if (e.responseStatus == "OK") {
+
 				}
 			}
 		});

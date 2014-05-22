@@ -1,7 +1,6 @@
 (function($) {
 	var time = require('time-interactive');	
 	//var d3 = require('d3');
-	//require("bootstrap");
 
 	var el = time.make("<%= interactive_id %>", {
 		headline: "<%= headline %>",
@@ -9,7 +8,7 @@
 	});
 
 	//CSS
-	require("./styles.less");
+	require("./src/styles.less");
 
 }(window.jQuery));
 
