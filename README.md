@@ -1,7 +1,11 @@
 Time Interactive deployment files
 ====
 
-Time.com interactives are developed independently from the CMS and bundled into discrete, self-assembling Javascript files using [browserify](https://www.npmjs.org/package/browserify). This Node.js module provides both a [command-line script](/bin/generate.js) for generating new projects and a [client-side script](/index.js) with a few convenience functions.
+Time.com interactives are developed independently from the CMS and bundled into discrete, self-assembling Javascript files using [browserify](https://www.npmjs.org/package/browserify). This repository provides both a [command-line script](/bin/generate.js) for generating new projects and a [client-side script](/index.js) with a few convenience functions.
+
+## Philosophy
+
+Apps need to be decoupled from the current page environment so that they stand the greatest chance of surviving changes to the page or the CMS. At the same time, they need to be good DOM citizens when running in an article page without an iframe's prophylactic embrace. Bundling apps with `browserify` allows us to enclose everything the app needs to survive in one file that can run either inside a Time.com page or on its own via the bare-bones `index.html` that accompanies each new app generated with this module. jQuery is the only dependency for our apps that is not bundled into the final script file.
 
 ## Installation
 

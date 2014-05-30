@@ -26,7 +26,7 @@
         "url" : "http://mechanicalscribe.com"
     },
     "scripts" : {
-        "test": "./bin/generate.js test_interactive ./"
+        "test": "./bin/generate.js my_test_app ./test/"
     },
     "browserify": {
         "transform": ["node-lessify", "node-underscorify"]

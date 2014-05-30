@@ -40,11 +40,17 @@ mkdirp(path, function() {
 		fs.writeFileSync(path + "/src/styles.less", styles(data));
 
 		ncp(__dirname + "/prototype/src/base.html", path + "/src/base.html", function (err) {
-		 if (err) {
-		   return console.error(err);
-		 }
-		});
+		 	if (err) {
+		   		return console.error(err);
+		 	}
 
+		 	// test the bundling
+			var browserify = require('browserify');		 
+
+			var b = browserify();
+			b.add(path + "/debug.js");
+			b.bundle();		
+		});
 	});
 
 	//mkdirp(path + "/data", function() {});
