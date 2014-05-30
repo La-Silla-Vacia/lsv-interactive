@@ -1,14 +1,16 @@
 (function($) {
 	var time = require('time-interactive');	
-	//var d3 = require('d3');
 
-	var el = time.make("<%= interactive_id %>", {
-		headline: "<%= headline %>",
-		intro: ""
-	});
+	var el = time("<%= interactive_id %>");
 
 	//CSS
 	require("./src/styles.less");
+
+	//MARKUP
+	require("./src/base.html")({
+		headline: "Headline",
+		intro: "Introduction goes here."
+	}).appendTo(el);
 
 }(window.jQuery));
 

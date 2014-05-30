@@ -17,14 +17,17 @@
         "node-lessify": ">= 0.0.3",
         "node-underscorify": ">= 0.0.3",
         "node-csvify": ">= 0.0.0",
-        "ncp": "*"
+        "ncp": "*",
+        "uglifyjs": ">= 1.3.5"
     },
     "author": {
         "name" : "Chris Wilson",
         "email" : "wilson@mechanicalscribe.com",
         "url" : "http://mechanicalscribe.com"
     },
-    "scripts" : {},
+    "scripts" : {
+        "test": "./bin/generate.js test_interactive ./"
+    },
     "browserify": {
         "transform": ["node-lessify", "node-underscorify"]
     },

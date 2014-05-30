@@ -1,42 +1,32 @@
 /* all interactives will be wrapped in a <div> with class "time-interactive" */
 .time-interactive {
 	width: 100%;
-	padding: 5px 0;
 	font-family: "franklin-gothic-urw", Helvetica, Arial, sans-serif;
-	line-height: 1em;
+	font-size: 16px;
 
 	svg { overflow: hidden; }
 
-	.headline {
+	.interactive-head {
 		text-align: center;
-		font-size: 30px;
+		font-size: 2em;
+		line-height: 1em;
+
 	    font-weight: 700;
 	    margin: 5px 0;
-		font-family: "franklin-gothic-urw", Helvetica, Arial, sans-serif;
-		line-height: 1em;
 		position: relative;
 	}
 
-	.intro {
+	.interactive-intro {
 	    font-size: 14px;
 	    font-weight: normal;
 	    margin: 5px 20px 5px 0;
 	    line-height: 1.5em;
 	}
-
-	.ie8_warning {
-		font-size: 12px;
-	}
-
-	.sourceline {
-		font-size: 12px;
-		text-align: right;
-	}
 }
 
 /* necessarily outside div.time-interactive for sake of correct positioning to mouse movement */
 .d3tooltip {
-	font-family: "Arial", sans-serif;
+	font-family: "franklin-gothic-urw", Helvetica, Arial, sans-serif;
 	font-size: 12px;
 	position: absolute;
 	z-index: 1000;

@@ -5,13 +5,19 @@
 <!--[if gt IE 8]><!--> <html lang="en-us" class="no-js"> <!--<![endif]-->
 	<head>
 		<meta charset="utf-8">
-		<title><%= headline %></title>
+		<title><%= interactive_id %></title>
 	</head>
 	<body>
-		<div id="<%= interactive_id %>">
-			<img class="screenshot" style="width: 100%; max-width: 740px" src="screenshot.png" />
+		<div class="time-interactive" id="<%= interactive_id %>">
+			<img class="screenshot" style="width: 100%; max-width: 840px" src="screenshot.png" />
 		</div>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script src="script-min.js"></script>
+	    <script type="text/javascript" src="//use.typekit.net/tke5zmh.js"></script>
+	    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script>
+			//Time.com pages use jquery in noConflict mode
+			$.noConflict();
+		</script>
+		<script src="script.js"></script>
 	</body>
 </html>

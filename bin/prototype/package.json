@@ -1,15 +1,13 @@
 {
     "name": "<%= interactive_id %>",
     "version": "0.0.1",
-    "description": "<%= headline %>",
-    "repository": {
-    },
+    "description": "",
+    "repository": {},
     "dependencies": {
-    },
-    "author": {
-        "name" : "Chris Wilson",
-        "email" : "wilson@mechanicalscribe.com",
-        "url" : "http://mechanicalscribe.com"
+        "browserify": ">= 4.1.6",
+        "node-lessify": ">= 0.0.1",
+        "node-csvify": ">= 0.0.1",
+        "node-underscorify": "0.0.7"
     },
     "scripts" : {},
     "browserify": {
