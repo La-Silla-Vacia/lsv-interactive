@@ -32,6 +32,6 @@
         "transform": ["node-lessify", "node-underscorify"]
     },
     "time-interactive": {
-        "app_dir": "../../apps/projects/"
+        "app_dir": "../../apps/development/"
     }
 }

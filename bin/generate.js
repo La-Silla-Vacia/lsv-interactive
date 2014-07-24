@@ -13,7 +13,6 @@ try {
 	var opts = {};
 }
 
-
 if (process.argv.length < 3) {
 	console.log("Please enter an id.");
 	return false;
@@ -44,12 +43,16 @@ mkdirp(path, function() {
 		   		return console.error(err);
 		 	}
 
+		 	/*
 		 	// test the bundling
 			var browserify = require('browserify');		 
 
 			var b = browserify();
 			b.add(path + "/debug.js");
-			b.bundle();		
+			b.bundle();	
+
+			console.log("Successfully created a new app named " + data.interactive_id + " in " + app_dir);
+			*/
 		});
 	});
 

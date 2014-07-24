@@ -7,10 +7,10 @@
 	require("./src/styles.less");
 
 	//MARKUP
-	require("./src/base.html")({
+	$(require("./src/base.html")({
 		headline: "Headline",
 		intro: "Introduction goes here."
-	}).appendTo(el);
+	})).appendTo(el);
 
 }(window.jQuery));
 
