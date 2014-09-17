@@ -3,16 +3,19 @@
 	require("./src/interactive.less")
 
 	// this assumes there is already a <div> on the page with the correct id, which Wordpress should have created (see README)
-	module.exports = function(el, opts) {
-		opts = opts || {};
-		// make el a $ object
-		if (typeof el === "string" && el[0] != "#") {
-			el = '#' + el;
+	module.exports = function(id, opts) {
+		if (!id || typeof id !== "string") {
+			console.log("Whoops -- you need to give time-interactive a string id of the element on the page in which to self-assemble.");
+			return;
 		}
-		$el = (el instanceof $) ? el : $(el);
+		opts = opts || {};
+
+		// make el, a $ object
+		var sel = id[0] !== "#" ? ("#" + id) : id,
+			$el = $(sel);
 
 		if ($el.length === 0) {
-			console.log("Object not found;");
+			console.log("Whoops -- the time-interactive function couldn't find a <div> on this page with an id of '" + el + "'. You probably mistyped it in debug.js.");
 			return;
 		}
 
@@ -25,11 +28,13 @@
 			$el.find(".screenshot").remove();	
 		}
 
-		// universal tooltip
-		//$("<div />").addClass("tooltip").appendTo(".time-interactive").get(0);
-
 		// return the DOM object
-		return $el.get(0);
+		return {
+			id: id,
+			el: $el.get(0),
+			width: function() { return $el.width(); },
+			height: function() { return $el.height(); }
+		};
 	}
 
 	/* CONVENIENCE FUNCTIONS */
@@ -41,6 +46,7 @@
 		if (!err) {
 			err = function(e, f, g) { console.log(e, f, g); }		
 		}
+		
 		jQuery.ajax({
 			url: filename,
 			dataType: 'jsonp',

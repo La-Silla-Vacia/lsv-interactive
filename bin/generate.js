@@ -5,6 +5,7 @@ var mkdirp = require("mkdirp");
 var _ = require("underscore");
 var ncp = require('ncp').ncp;
 
+console.log(__dirname);
 
 try {
 	var opts = fs.readFileSync("package.json", "utf8");
@@ -19,7 +20,8 @@ if (process.argv.length < 3) {
 }
 
 var data = {
-		interactive_id: process.argv[2]
+		interactive_id: process.argv[2],
+		version: opts.version || "*"
 	},
 	app_dir = process.argv[3] || opts["time-interactive"].app_dir || "./";
 
@@ -56,7 +58,13 @@ mkdirp(path, function() {
 		});
 	});
 
-	//mkdirp(path + "/data", function() {});
+	mkdirp(path + "/data", function() {
+
+	});
+
+	mkdirp(path + "/node_modules", function() {
+		
+	});
 
 	ncp(__dirname + "/prototype/screenshot.png", path + "/screenshot.png", function (err) {
 	 if (err) {

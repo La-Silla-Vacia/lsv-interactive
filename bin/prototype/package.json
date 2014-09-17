@@ -1,13 +1,15 @@
 {
     "name": "<%= interactive_id %>",
-    "version": "0.0.2",
+    "version": "0.0.0",
     "description": "",
     "repository": {},
     "dependencies": {
-        "browserify": ">= 4.1.6",
-        "node-lessify": ">= 0.0.1",
-        "node-csvify": ">= 0.0.1",
-        "node-underscorify": "0.0.7"
+        "time-interactive": "<%= version %>",
+        "browserify": "~5.11.1",
+        "node-lessify": "~0.0.3",
+        "node-underscorify": "~0.0.12",
+        "node-csvify": "~0.0.2",
+        "browsernizr": "~1.0.2"
     },
     "scripts" : {},
     "browserify": {
