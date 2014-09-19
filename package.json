@@ -1,7 +1,7 @@
 {
     "name": "time-interactive",
-    "version": "0.0.2",
-    "description": "Bootstrap files for Time.com interactives",
+    "version": "0.0.3",
+    "description": "Interactive boostrap files for Time.com",
     "main": "index.js",
     "repository": {
         "type": "git",
@@ -11,13 +11,16 @@
         "time-interactive": "./bin/generate.js"
     },
     "dependencies": {
-        "browserify": "~5.11.1",
-        "node-lessify": "~0.0.3",
-        "node-underscorify": "~0.0.12",
-        "node-csvify": "~0.0.2",
+        "browserify": ">=5.11.1",
+        "underscore": ">=1.5.1",
+        "node-lessify": ">=0.0.3",
+        "node-underscorify": ">=0.0.12",
+        "node-csvify": ">=0.0.2",
+        "browsernizr": ">=1.0.2"
+    },
+    "devDependencies": {
         "ncp": "*",
-        "mkdirp": "~0.5.0",
-        "browsernizr": "~1.0.2"
+        "mkdirp": "~0.5.0"
     },
     "author": {
         "name" : "Chris Wilson",
@@ -29,8 +32,5 @@
     },
     "browserify": {
         "transform": ["node-lessify", "node-underscorify"]
-    },
-    "time-interactive": {
-        "app_dir": "../../apps/development/"
     }
 }

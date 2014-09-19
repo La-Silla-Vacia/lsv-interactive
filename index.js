@@ -2,6 +2,18 @@
 	// base CSS file
 	require("./src/interactive.less")
 
+	// Modernizr tests
+	require("browsernizr/test/svg");
+	require("browsernizr/test/canvas");
+	require("browsernizr/test/audio");
+	require("browsernizr/test/geolocation");
+	require("browsernizr/test/postmessage");
+	require("browsernizr/test/websockets");
+	require("browsernizr/test/touchevents");
+	require("browsernizr/test/webgl");
+
+	var Modernizr = require('browsernizr');
+
 	// this assumes there is already a <div> on the page with the correct id, which Wordpress should have created (see README)
 	module.exports = function(id, opts) {
 		if (!id || typeof id !== "string") {
@@ -30,60 +42,34 @@
 
 		// return the DOM object
 		return {
+			version: "0.0.3",
 			id: id,
 			el: $el.get(0),
 			width: function() { return $el.width(); },
-			height: function() { return $el.height(); }
+			height: function() { return $el.height(); },
+			detections: Modernizr,
+			onresize: function(f, delay) {
+				delay = typeof delay === undefined ? 100 : delay;
+				var resizeTimer;
+				$(window).resize(function() { 
+					clearTimeout(resizeTimer);
+					resizeTimer = setTimeout(function() {				
+						f($el.width(), $el.height());
+					}, delay);
+				});
+			}
 		};
 	}
 
+
 	/* CONVENIENCE FUNCTIONS */
-
-	// right now we are unable to load JSON asynchronously from Time CDN. (See https://timedotcom.atlassian.net/browse/TIM-3567)
-	// This hack allows you to load JSON files with JSON-P IF they are wrapped in ticallback()
-
-	module.exports.loadJSON = function(filename, callback, err) {
-		if (!err) {
-			err = function(e, f, g) { console.log(e, f, g); }		
-		}
-		
-		jQuery.ajax({
-			url: filename,
-			dataType: 'jsonp',
-	        //jsonp: 'ticallback',
-	        contentType: "application/json",
-			async: false,
-			success: function(d) {
-				callback(d);
-			},
-			error: function(e, f, g) {
-				if (err) {
-					err(e, f, g);
-				}
-				if (e.responseStatus == "OK") {
-
-				}
-			}
-		});
-	}
-
-	// add a function to the page resize without overwriting other listeners
-	module.exports.onresize = function(f, delay) {
-		delay = typeof delay === undefined ? 100 : delay;
-		var resizeTimer;
-		$(window).resize(function() { 
-			clearTimeout(resizeTimer);
-			resizeTimer = setTimeout(function() {
-				f();
-			}, delay);
-		});
-	}
 
 	// add commas to numbers over 1000
 	module.exports.commafy = function(val){
-		if (typeof val === "string") {
-			val = parseInt(val, 10);
+		if (typeof val !== "number") {
+			return;
 		}
+		val = parseInt(val, 10);
 
 	    while (/(\d+)(\d{3})/.test(val.toString())){
 	      val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');

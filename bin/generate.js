@@ -5,25 +5,23 @@ var mkdirp = require("mkdirp");
 var _ = require("underscore");
 var ncp = require('ncp').ncp;
 
-console.log(__dirname);
-
-try {
-	var opts = fs.readFileSync("package.json", "utf8");
-	opts = JSON.parse(opts);
-} catch(e) {
-	var opts = {};
-}
+var opts = JSON.parse(fs.readFileSync(__dirname + "/../package.json", "utf8"));
 
 if (process.argv.length < 3) {
 	console.log("Please enter an id.");
 	return false;
 }
 
+if (process.argv.length > 3) {
+	var app_dir = process.argv[3];
+} else {
+	var app_dir = "./";
+}
+
 var data = {
 		interactive_id: process.argv[2],
 		version: opts.version || "*"
-	},
-	app_dir = process.argv[3] || opts["time-interactive"].app_dir || "./";
+	};
 
 var index = _.template(fs.readFileSync(__dirname + "/prototype/index.html", "utf8")),
 	debug = _.template(fs.readFileSync(__dirname + "/prototype/debug.js", "utf8")),
@@ -60,10 +58,6 @@ mkdirp(path, function() {
 
 	mkdirp(path + "/data", function() {
 
-	});
-
-	mkdirp(path + "/node_modules", function() {
-		
 	});
 
 	ncp(__dirname + "/prototype/screenshot.png", path + "/screenshot.png", function (err) {
