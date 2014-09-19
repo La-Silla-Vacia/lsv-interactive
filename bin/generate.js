@@ -66,7 +66,7 @@ mkdirp(path, function() {
 	 }
 	});
 
-	ncp(__dirname + "/prototype/.gitignore", path + "/.gitignore", function (err) {
+	ncp(__dirname + "/prototype/gitignore", path + "/.gitignore", function (err) {
 	 if (err) {
 	   return console.error(err);
 	 }
