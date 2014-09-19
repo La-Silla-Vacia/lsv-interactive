@@ -1,6 +1,6 @@
 {
     "name": "time-interactive",
-    "version": "0.0.3",
+    "version": "0.0.3a",
     "description": "Interactive boostrap files for Time.com",
     "main": "index.js",
     "repository": {
@@ -12,16 +12,15 @@
     },
     "dependencies": {
         "browserify": ">=5.11.1",
-        "underscore": ">=1.5.1",
         "node-lessify": ">=0.0.3",
         "node-underscorify": ">=0.0.12",
         "node-csvify": ">=0.0.2",
-        "browsernizr": ">=1.0.2"
-    },
-    "devDependencies": {
+        "browsernizr": ">=1.0.2",
+        "underscore": ">=1.5.1",
         "ncp": "*",
         "mkdirp": "~0.5.0"
     },
+    "browser": "browser",
     "author": {
         "name" : "Chris Wilson",
         "email" : "wilson@mechanicalscribe.com",

@@ -9,23 +9,19 @@ Apps need to be decoupled from the current page environment so that they stand t
 
 ## Installation
 
-You'll want to [install Node.js](http://nodejs.org/) first. Then clone this repo and then install the dependencies:
+We'll assume you have [installed Node](http://nodejs.org/). You can then install the Time Interactive repo like so:
 
-	git clone https://github.com/TimeMagazine/time-interactive.git
-	cd time-interactive
-	npm install
+	npm install -g time-interactive
+
+It's important to [install it globally](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation) (hence the `-g` flag) since the module comes with a command-line function that you'll want to run in the shell from any location. Depending on how you installed Node, you [may need to run this](http://howtonode.org/introduction-to-npm) command with `sudo`. 
 
 ## Getting started
 
-The module comes with a script called ```generate``` that creates a new skeleton project. It takes two command-line arguments: The unique id of the interactive and the directory to which it should install.
+The `time-interactive` command runs a script called [`generate`](bin/generate.js) that creates a new skeleton project. It takes two command-line arguments: The unique id of the interactive and the directory to which it should install.
 
-	./bin/generate.js my_test_app ./apps
+	time-interactive my_test_app ./apps
 
-By default, if the second argument is missing, the script creates a new folder in the current directory. You can change that location by adding the following to the ```package.json``` file: 
-
-    "time-interactive": {
-        "app_dir": "/path/to/my/app/folder/"
-    }
+By default, if the second argument is missing, the script creates a new folder in the current directory.
 
 This script creates a handful of files:
 
@@ -38,7 +34,7 @@ This script creates a handful of files:
 
 ### How it works
 
-Run `./bin/generate.js my_test_app ./apps` and you'll see that it creates a folder called `my_test_app` in the `apps` directory (which it will also create if such a directory doesn't exist). That new folder includes a `debug.js` that looks like this:
+Run `time-interactive my_test_app ./apps` and you'll see that it creates a folder called `my_test_app` in the `apps` directory (which it will also create if such a directory doesn't exist). That new folder includes a `debug.js` that looks like this:
 
 	(function($) {
 		var time = require('time-interactive');	
@@ -48,7 +44,7 @@ Run `./bin/generate.js my_test_app ./apps` and you'll see that it creates a fold
 		require("./src/styles.less");
 
 		//MARKUP
-		require("./src/base.html")({
+		$(require("./src/base.html")({
 			headline: "Headline",
 			intro: "Introduction goes here."
 		}).appendTo(el);

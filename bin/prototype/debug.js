@@ -1,7 +1,7 @@
 (function($) {
 	var time = require('time-interactive');	
 
-	var el = time("<%= interactive_id %>");
+	var interactive = time("<%= interactive_id %>");
 
 	//CSS
 	require("./src/styles.less");
@@ -10,7 +10,7 @@
 	$(require("./src/base.html")({
 		headline: "Headline",
 		intro: "Introduction goes here."
-	})).appendTo(el);
+	})).appendTo(interactive.el);
 
 }(window.jQuery));
 
