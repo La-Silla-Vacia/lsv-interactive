@@ -1,7 +1,7 @@
 Time Interactive deployment files
 ====
 
-[![Dependency Status](https://david-dm.org/TimeMagazine/time-interactive.svg)](https://david-dm.org/TimeMagazine/time-interactive)
+[![Build Status](https://travis-ci.org/TimeMagazine/time-interactive.png)](https://travis-ci.org/TimeMagazine/time-interactive) [![Dependency Status](https://david-dm.org/TimeMagazine/time-interactive.svg)](https://david-dm.org/TimeMagazine/time-interactive)
 
 Time.com interactives are developed independently from the CMS and bundled into discrete, self-assembling Javascript files using [browserify](https://www.npmjs.org/package/browserify). This repository provides both a [command-line script](/bin/generate.js) for generating new projects and a [client-side script](/index.js) with a few convenience functions.
 

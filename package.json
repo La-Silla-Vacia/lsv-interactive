@@ -1,6 +1,6 @@
 {
   "name": "time-interactive",
-  "version": "0.0.3c",
+  "version": "0.0.3d",
   "description": "Interactive bootstrap files for Time.com",
   "main": "index.js",
   "repository": {
