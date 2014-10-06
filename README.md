@@ -60,6 +60,15 @@ That command uses the [node-lessify](https://www.npmjs.org/package/node-lessify)
 
 Once you've compiled that script, you can preview the app by opening `index.html`. It is recommended that you do so on a local server instead of via the `file://` schema. 
 
+## The `interactive` object
+
+Use of the `time()` function is not strictly necessary for an app, but it's very lightweight and comes with a few handy properties:
+
++ `el`: The top-level DOM element of the app
++ `modernizr`: A few Modernizr tests for detecting devices and compatibilities
++ `width`: A *function* that, when invoked (e.g., `interactive.width()`) return the width of the parent element at that time
++ `height`: Same as above for the height
+
 ## Automatic browserify-ification
 
 ###To run browserify in Intellij:
