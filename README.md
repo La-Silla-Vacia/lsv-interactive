@@ -1,6 +1,8 @@
 Time Interactive deployment files
 ====
 
+[![Dependency Status](https://david-dm.org/TimeMagazine/time-interactive.svg)](https://david-dm.org/TimeMagazine/time-interactive)
+
 Time.com interactives are developed independently from the CMS and bundled into discrete, self-assembling Javascript files using [browserify](https://www.npmjs.org/package/browserify). This repository provides both a [command-line script](/bin/generate.js) for generating new projects and a [client-side script](/index.js) with a few convenience functions.
 
 ## Philosophy
@@ -38,7 +40,7 @@ Run `time-interactive my_test_app ./apps` and you'll see that it creates a folde
 
 	(function($) {
 		var time = require('time-interactive');	
-		var el = time("my_test_app");
+		var interactive = time("my_test_app");
 
 		//CSS
 		require("./src/styles.less");
@@ -47,7 +49,7 @@ Run `time-interactive my_test_app ./apps` and you'll see that it creates a folde
 		$(require("./src/base.html")({
 			headline: "Headline",
 			intro: "Introduction goes here."
-		}).appendTo(el);
+		}).appendTo(interactive.el);
 	}(window.jQuery));
 
 If you look inside `index.html`, however, you'll see that it references a file called `script.js`, which does not exist in the repo. That's because you need to run the Browserify command to take the highly modular, clean code from `debug.js` and compile it into a single file:
@@ -109,10 +111,4 @@ All Time.com interactives should run inside the ```.time-interactive``` selector
 
 One of the reasons we use LESS for stylesheets is that it allows us to easily wrap this class around all styles specific to the interactive, thus preventing them from screwing up the styling of the page. Likewise, *all jQuery selectors should start with .time-interactive.* Otherwise, there is a risk that an ID assigned to something inside the interactive will also appear elsewhere.
 
-By default, a new script requires the ```time-interactive``` script [included in this repo](/index.js), which contains some convenience functions for getting started. Running `var el = time("my_test_app")` adds the necessary classes and ids to the parent `<div>` and removes the screenshot that is included on page load. 
-
-###options for `time()`
-
-+ ```headline```: The headline at the top of the interactive. Default: none
-+ ```intro```: The subhead
-+ ```keepscreenshot```: Do not delete the screenshot when the interactive loads. Default: false.
+By default, a new script requires the ```time-interactive``` script [included in this repo](/index.js), which contains some convenience functions for getting started. Running `var interactive = time("my_test_app")` adds the necessary classes and ids to the parent `<div>` and removes the screenshot that is included on page load. 
