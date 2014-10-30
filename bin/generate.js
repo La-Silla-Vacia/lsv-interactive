@@ -11,11 +11,13 @@ if (process.argv.length < 3) {
 	console.log("Please enter an id.");
 	return false;
 }
-
+var app_dir = "./";  // default to the the current directory
 if (process.argv.length > 3) {
-	var app_dir = process.argv[3];
-} else {
-	var app_dir = "./";
+	app_dir = process.argv[3];
+    // make sure app_dir ends with a / delimiter
+    if (app_dir.slice(-1) != '/') {
+        app_dir += '/';
+    }
 }
 
 var data = {
@@ -28,7 +30,13 @@ var index = _.template(fs.readFileSync(__dirname + "/prototype/index.html", "utf
 	styles = _.template(fs.readFileSync(__dirname + "/prototype/src/styles.less", "utf8")),
 	pkg = _.template(fs.readFileSync(__dirname + "/prototype/package.json", "utf8"));
 
+
 var path = app_dir + data.interactive_id;
+
+if (fs.existsSync(path)) {
+    console.error("The path "+path+ " already exists!");
+    console.error("Program execution aborted!");
+}
 
 mkdirp(path, function() {
 	fs.writeFileSync(path + "/index.html", index(data));
