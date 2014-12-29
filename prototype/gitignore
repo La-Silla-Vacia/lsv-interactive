@@ -2,7 +2,6 @@
 lib-cov
 *.seed
 *.log
-*.csv
 *.dat
 *.out
 *.pid
@@ -15,3 +14,4 @@ results
 npm-debug.log
 node_modules
 script.js
+script-min.js
