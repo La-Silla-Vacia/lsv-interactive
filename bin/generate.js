@@ -29,7 +29,8 @@ var data = {
 var index = _.template(fs.readFileSync(__dirname + "/../prototype/index.html", "utf8")),
 	debug = _.template(fs.readFileSync(__dirname + "/../prototype/debug.js", "utf8")),
 	styles = _.template(fs.readFileSync(__dirname + "/../prototype/src/styles.less", "utf8")),
-	pkg = _.template(fs.readFileSync(__dirname + "/../prototype/package.json", "utf8"));
+	pkg = _.template(fs.readFileSync(__dirname + "/../prototype/package.json", "utf8")),
+	readme = _.template(fs.readFileSync(__dirname + "/../prototype/README.md", "utf8"));
 
 
 var path = app_dir + data.interactive_id;
@@ -43,6 +44,7 @@ mkdirp(path, function() {
 	fs.writeFileSync(path + "/index.html", index(data));
 	fs.writeFileSync(path + "/debug.js", debug(data));
 	fs.writeFileSync(path + "/package.json", pkg(data));
+	fs.writeFileSync(path + "/README.md", readme(data));
 
 	mkdirp(path + "/src", function() {
 		fs.writeFileSync(path + "/src/styles.less", styles(data));
