@@ -3,7 +3,7 @@ Source files for <%= interactive_id %>
 
 ##Installation and setup
 
-Clone the repository anywhere you want it
+Clone the repository anywhere you want it (if you didn't create it in the first place with the `time-interactive` CLI).
 
 	git clone git@git.time-sandbox.com:timelabs/<%= interactive_id %>.git
 

@@ -1,6 +1,6 @@
 {
   "name": "time-interactive",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Interactive bootstrap files for Time.com",
   "main": "index.js",
   "repository": {
@@ -11,7 +11,7 @@
     "time-interactive": "./bin/generate.js"
   },
   "dependencies": {
-    "browserify": "6.x.x",
+    "browserify": "8.x.x",
     "node-lessify": ">=0.0.6",
     "node-underscorify": ">=0.0.12",
     "node-csvify": ">=0.0.4",

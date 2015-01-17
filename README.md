@@ -1,13 +1,12 @@
-Time Interactive deployment files
+Guide to Time.com Interactives
 ====
 
 [![Build Status](https://travis-ci.org/TimeMagazine/time-interactive.png)](https://travis-ci.org/TimeMagazine/time-interactive) [![Dependency Status](https://david-dm.org/TimeMagazine/time-interactive.svg)](https://david-dm.org/TimeMagazine/time-interactive)
+`v0.0.5`
 
-Time.com interactives are developed independently from the CMS and bundled into discrete, self-assembling Javascript files using [browserify](https://www.npmjs.org/package/browserify). This repository provides both a [command-line script](/bin/generate.js) for generating new projects and a [client-side script](/index.js) with a few convenience functions.
+Our interactives at Time are developed independently from the CMS and bundled into self-assembling Javascript files using [browserify](https://www.npmjs.org/package/browserify). They are both discrete--requiring no dependencies--and discreet--interfering as little as possible with the rest of the page. 
 
-## Philosophy
-
-Apps need to be decoupled from the current page environment so that they stand the greatest chance of surviving changes to the page or the CMS. At the same time, they need to be good DOM citizens when running in an article page without an iframe's prophylactic embrace. Bundling apps with `browserify` allows us to enclose everything the app needs to survive in one file that can run either inside a Time.com page or on its own via the bare-bones `index.html` that accompanies each new app generated with this module. jQuery is the only dependency for our apps that is not bundled into the final script file.
+This repository provides both a [command-line script](/bin/generate.js) for generating new projects and a [client-side script](/index.js) with a few convenience functions.
 
 ## Installation
 
@@ -27,7 +26,7 @@ By default, if the second argument is missing, the script creates a new folder i
 
 This script creates a handful of files:
 
-+ `debug.js` is your main file for writing client-side Javascript with the help of Node.js `require()` statements. You'll see some default code in there to get you started.
++ `debug.js` is your main file for writing client-side Javascript with the help of Node-style `require()` statements. You'll see some default code in there to get you started.
 + `index.html` is an HTML file for previewing your app after it is bundled.
 + `package.json` is a set of instructions for Node and Browserify, including transforms that Browserify needs to correctly include LESS and CSV files in the interactive.
 + `src/styles.less` is the stylesheet for this interactive, using the [LESS](http://lesscss.org/) dynamic style sheet language.
@@ -101,6 +100,7 @@ This is the extent of an interactive's purchase on the DOM at page load time. Al
 
 When the code you've written in `debug.js` is ready for deployment, pipe it through a minifier to a file named `script-min.js`:
 
+	npm install -g uglifyjs
 	browserify debug.js | uglifyjs > script-min.js
 
 The beauty of the bundled scripts is that they can live anywhere when combined with the `index.html` file, which mimics the markup created by the short code.
