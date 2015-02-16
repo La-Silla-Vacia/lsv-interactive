@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "browserify": "8.x.x",
-    "node-lessify": ">=0.0.6",
+    "node-lessify": ">=0.0.9",
     "node-underscorify": ">=0.0.12",
     "node-csvify": ">=0.0.4",
     "browsernizr": "1.0.x",
