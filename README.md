@@ -3,6 +3,8 @@ Guide to Time.com Interactives
 
 [![Build Status](https://travis-ci.org/TimeMagazine/time-interactive.png)](https://travis-ci.org/TimeMagazine/time-interactive) [![Dependency Status](https://david-dm.org/TimeMagazine/time-interactive.svg)](https://david-dm.org/TimeMagazine/time-interactive)
 
+v0.0.7
+
 Our interactives at Time are developed independently from the CMS and bundled into self-assembling Javascript files using [browserify](https://www.npmjs.org/package/browserify). They are both discrete--requiring no dependencies--and discreet--interfering as little as possible with the rest of the page. 
 
 This repository provides both a [command-line script](/bin/generate.js) for generating new projects and a [client-side script](/index.js) with a few convenience functions.
@@ -66,6 +68,13 @@ Use of the `time()` function is not strictly necessary for an app, but it's very
 + `modernizr`: A few Modernizr tests for detecting devices and compatibilities
 + `width`: A *function* that, when invoked (e.g., `interactive.width()`) return the width of the parent element at that time
 + `height`: Same as above for the height
++ `width`: A *function* that, when invoked (e.g., `interactive.width()`) return the width of the parent element at that time
++ `page_width`: the width of the entire page,
++ `page_height`: the height of the entire page
++ `aspect_ratio`: page ratio (w/h), useful for adjusting for wide desktops vs tall phones,
++ `params`: Object with any key-value parameters from the WP shortcode (see below)
++ `detections`: a few useful Modernizr tests: audio, canvas, geolocation, postmessage, svg, touchevents, webgl, websockets
+
 
 ## Automatic browserify-ification
 
@@ -103,6 +112,12 @@ When the code you've written in `debug.js` is ready for deployment, pipe it thro
 	browserify debug.js | uglifyjs > script-min.js
 
 The beauty of the bundled scripts is that they can live anywhere when combined with the `index.html` file, which mimics the markup created by the short code.
+
+### Parameters
+
+Some interactives will function more like tools that live on many pages and accept inputs about which files to load and so forth. You can pass any information you like to the interactive from Wordpress by adding a `params` argument to the shortcode. The format is like a URL parameter (interpreted with the PHP function [`parse_str`](http://php.net/parse_str) under the hood.)
+
+	[time-interactive id=my_app params="src_data=employment&highlightcolor=red"]
 
 ## Best practices
 
