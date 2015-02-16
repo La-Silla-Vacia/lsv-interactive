@@ -40,13 +40,20 @@
 			$el.find(".screenshot").remove();	
 		}
 
+		// grab the parameter from the div if present
+
+
 		// return the DOM object
 		return {
-			version: "0.0.3",
+			version: "0.0.7",
 			id: id,
 			el: $el.get(0),
 			width: function() { return $el.width(); },
 			height: function() { return $el.height(); },
+			page_width: $(document).width(),
+			page_height: $(document).height(),
+			aspect_ratio: $(document).width() / $(document).height(),
+			params: $el.data(),
 			detections: Modernizr,
 			onresize: function(f, delay) {
 				delay = typeof delay === undefined ? 100 : delay;
