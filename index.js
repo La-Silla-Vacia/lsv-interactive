@@ -53,7 +53,7 @@
 			page_width: $(document).width(),
 			page_height: $(document).height(),
 			aspect_ratio: $(document).width() / $(document).height(),
-			params: $el.data(),
+			params: $el.data() || {},
 			detections: Modernizr,
 			onresize: function(f, delay) {
 				delay = typeof delay === undefined ? 100 : delay;
