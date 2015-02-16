@@ -5,11 +5,10 @@
     "repository": {},
     "dependencies": {
         "time-interactive": "<%= version %>",
-        "browserify": "~5.11.1",
-        "node-lessify": "~0.0.3",
+        "browserify": "8.0.x",
+        "node-lessify": ">=0.0.9",
         "node-underscorify": "~0.0.12",
-        "node-csvify": "~0.0.2",
-        "browsernizr": "~1.0.2"
+        "node-csvify": "~0.0.2"
     },
     "scripts" : {},
     "browserify": {
