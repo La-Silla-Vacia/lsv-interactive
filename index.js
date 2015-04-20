@@ -1,4 +1,6 @@
-(function($) {
+// v0.0.8
+
+(function() {
 	// base CSS file
 	require("./src/interactive.less")
 
@@ -16,18 +18,22 @@
 
 	// this assumes there is already a <div> on the page with the correct id, which Wordpress should have created (see README)
 	module.exports = function(id, opts) {
-		if (!id || typeof id !== "string") {
-			console.log("Whoops -- you need to give time-interactive a string id of the element on the page in which to self-assemble.");
+		if (!id || (typeof id !== "string" && typeof id !== "object")) {
+			console.log("Whoops -- you need to give time-interactive a string id of the element on the page in which to self-assemble or the element itself.");
 			return;
 		}
 		opts = opts || {};
 
-		// make el, a $ object
-		var sel = id[0] !== "#" ? ("#" + id) : id,
-			$el = $(sel);
+		if (typeof id === "string") {
+			// make el, a $ object
+			var sel = id[0] !== "#" ? ("#" + id) : id,
+				$el = jQuery(sel);
+		} else if (typeof id === "object") {
+			var $el = jQuery(id);			
+		}
 
 		if ($el.length === 0) {
-			console.log("Whoops -- the time-interactive function couldn't find a <div> on this page with an id of '" + el + "'. You probably mistyped it in debug.js.");
+			console.log("Whoops -- the time-interactive function couldn't find a <div> on this page for the element it was given. You probably mistyped it in debug.js.");
 			return;
 		}
 
@@ -40,14 +46,19 @@
 			$el.find(".screenshot").remove();	
 		}
 
-		// grab the parameter from the div if present
-
+		// alias $ to only find elements inside the main div. 
+		var $ = function(selector) { 
+			return new jQuery.fn.init(selector, $el.get(0));
+		};
+		$.fn = $.prototype = jQuery.fn;
+		jQuery.extend($, jQuery); // copy's trim, extend etc to $		
 
 		// return the DOM object
 		return {
-			version: "0.0.7",
+			version: "0.0.8",
 			id: id,
 			el: $el.get(0),
+			$: $,
 			width: function() { return $el.width(); },
 			height: function() { return $el.height(); },
 			page_width: $(document).width(),
@@ -92,4 +103,4 @@
 		});		
 	}
 
-}(jQuery));
+}());

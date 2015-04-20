@@ -1,16 +1,23 @@
-(function($) {
-	var time = require('time-interactive');	
+(function() {
+	// loop through all instances of this app on the page in case we're using it multiple times
+	jQuery("#<%= interactive_id %>").each(function(i, el) {
+		var time = require('time-interactive');
 
-	var interactive = time("<%= interactive_id %>");
+		var interactive = time(el),
+			$ = interactive.$; 		
 
-	//CSS
-	require("./src/styles.less");
+		/* 
+		The variable $ will only find elements inside the current el.
+		To select elements outside the interactive, which you should only be doing with good reason, use `jQuery`
+		*/
 
-	//MARKUP
-	$(require("./src/base.html")({
-		headline: "Headline",
-		intro: "Introduction goes here."
-	})).appendTo(interactive.el);
+		//CSS
+		require("./src/styles.less");
 
-}(window.jQuery));
-
+		//MARKUP
+		$(require("./src/base.html")({
+			headline: "Headline",
+			intro: "Introduction goes here."
+		})).appendTo(interactive.el);		
+	});
+}());
