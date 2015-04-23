@@ -1,4 +1,4 @@
-// v0.0.8
+// v0.0.9
 
 (function() {
 	// base CSS file
@@ -37,6 +37,8 @@
 			return;
 		}
 
+		var el = $el.get(0);
+
 		// ought to already have this, but let's be sure
 		$el.addClass("time-interactive");
 
@@ -46,24 +48,43 @@
 			$el.find(".screenshot").remove();	
 		}
 
-		// alias $ to only find elements inside the main div. 
-		var $ = function(selector) { 
-			return new jQuery.fn.init(selector, $el.get(0));
+		// _$ and _d3 will only find elements inside the main div. 
+		var _$ = function(selector) { 
+			return $el.find(selector);
 		};
-		$.fn = $.prototype = jQuery.fn;
-		jQuery.extend($, jQuery); // copy's trim, extend etc to $		
+
+
+		var _d3 = {
+			select: function(selector) { 
+				if (d3) {
+					return d3.select(el).select(selector);
+				} else {
+					console.log("d3 isn't defined, so _d3 is confused");
+					return null;
+				}
+			},
+			selectAll: function(selector) { 
+				if (d3) {
+					return d3.select(el).selectAll(selector);
+				} else {
+					console.log("d3 isn't defined, so _d3 is confused");
+					return null;
+				}
+			}			
+		};
 
 		// return the DOM object
 		return {
 			version: "0.0.8",
 			id: id,
-			el: $el.get(0),
-			$: $,
+			el: el,
+			_$: _$,
+			_d3: _d3,
 			width: function() { return $el.width(); },
 			height: function() { return $el.height(); },
-			page_width: $(document).width(),
-			page_height: $(document).height(),
-			aspect_ratio: $(document).width() / $(document).height(),
+			page_width: jQuery(document).width(),
+			page_height: jQuery(document).height(),
+			aspect_ratio: jQuery(document).width() / jQuery(document).height(),
 			params: $el.data() || {},
 			detections: Modernizr,
 			onresize: function(f, delay) {

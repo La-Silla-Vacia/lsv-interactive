@@ -3,7 +3,7 @@ Guide to Time.com Interactives
 
 [![Build Status](https://travis-ci.org/TimeMagazine/time-interactive.png)](https://travis-ci.org/TimeMagazine/time-interactive) [![Dependency Status](https://david-dm.org/TimeMagazine/time-interactive.svg)](https://david-dm.org/TimeMagazine/time-interactive)
 
-v0.0.7
+v0.0.9
 
 Our interactives at Time are developed independently from the CMS and bundled into self-assembling Javascript files using [browserify](https://www.npmjs.org/package/browserify). They are both discrete--requiring no dependencies--and discreet--interfering as little as possible with the rest of the page. 
 
@@ -39,17 +39,22 @@ This script creates a handful of files:
 Run `time-interactive my_test_app ./apps` and you'll see that it creates a folder called `my_test_app` in the `apps` directory (which it will also create if such a directory doesn't exist). That new folder includes a `debug.js` that looks like this:
 
 	(function($) {
-		var time = require('time-interactive');	
-		var interactive = time("my_test_app");
+		$("#my_test_app").each(function(i, el) {
+			var time = require('time-interactive');
 
-		//CSS
-		require("./src/styles.less");
+			var interactive = time(el),
+				_$ = interactive._$,
+				_d3 = interactive._d3;
 
-		//MARKUP
-		$(require("./src/base.html")({
-			headline: "Headline",
-			intro: "Introduction goes here."
-		}).appendTo(interactive.el);
+			//CSS
+			require("./src/styles.less");
+
+			//MARKUP
+			$(require("./src/base.html")({
+				headline: "Headline",
+				intro: "Introduction goes here."
+			})).appendTo(interactive.el);		
+		});
 	}(window.jQuery));
 
 If you look inside `index.html`, however, you'll see that it references a file called `script.js`, which does not exist in the repo. That's because you need to run the Browserify command to take the highly modular, clean code from `debug.js` and compile it into a single file:
@@ -74,6 +79,8 @@ Use of the `time()` function is not strictly necessary for an app, but it's very
 + `aspect_ratio`: page ratio (w/h), useful for adjusting for wide desktops vs tall phones,
 + `params`: Object with any key-value parameters from the WP shortcode (see below)
 + `detections`: a few useful Modernizr tests: audio, canvas, geolocation, postmessage, svg, touchevents, webgl, websockets
++ `_$`: A jQuery selector that only looks inside the current element. `_$(selector)` is shorthand for `$(el).find(selector)` 
++ `_d3`: A d3 selector that only looks inside the current element. `_d3.selectAll(selector)` is shorthand for `d3.select(el).selectAll(selector)` 
 
 
 ## Automatic browserify-ification
