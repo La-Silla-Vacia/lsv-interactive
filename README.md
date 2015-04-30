@@ -142,3 +142,25 @@ All Time.com interactives should run inside the ```.time-interactive``` selector
 One of the reasons we use LESS for stylesheets is that it allows us to easily wrap this class around all styles specific to the interactive, thus preventing them from screwing up the styling of the page. Likewise, *all jQuery selectors should start with .time-interactive.* Otherwise, there is a risk that an ID assigned to something inside the interactive will also appear elsewhere.
 
 By default, a new script requires the ```time-interactive``` script [included in this repo](/index.js), which contains some convenience functions for getting started. Running `var interactive = time("my_test_app")` adds the necessary classes and ids to the parent `<div>` and removes the screenshot that is included on page load. 
+
+###How to handle multiple instances of the same interactive on one page
+
+	(function($) {
+		// loop through all instances of this app on the page in case we're using it multiple times
+		$("#<%= interactive_id %>").each(function(i, el) {
+			var time = require('time-interactive');
+
+			var interactive = time(el),
+				_$ = interactive._$,
+				_d3 = interactive._d3;
+
+			//CSS
+			require("./src/styles.less");
+
+			//MARKUP
+			$(require("./src/base.html")({
+				headline: "Headline",
+				intro: "Introduction goes here."
+			})).appendTo(interactive.el);		
+		});
+	}(window.jQuery));
