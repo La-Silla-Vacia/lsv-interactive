@@ -39,22 +39,22 @@ This script creates a handful of files:
 Run `time-interactive my_test_app ./apps` and you'll see that it creates a folder called `my_test_app` in the `apps` directory (which it will also create if such a directory doesn't exist). That new folder includes a `debug.js` that looks like this:
 
 	(function($) {
-		$("#my_test_app").each(function(i, el) {
-			var time = require('time-interactive');
+		var time = require('time-interactive');
 
-			var interactive = time(el),
-				_$ = interactive._$,
-				_d3 = interactive._d3;
+		var interactive = time("#my_test_app");
 
-			//CSS
-			require("./src/styles.less");
+		var _$  = interactive._$;		// _$ will only find elements inside the current el. 
+		//var _d3 = interactive._d3;	// _d3 has two methods: select and selectAll, which likewise only look inside this element.
 
-			//MARKUP
-			$(require("./src/base.html")({
-				headline: "Headline",
-				intro: "Introduction goes here."
-			})).appendTo(interactive.el);		
-		});
+		//CSS
+		require("./src/styles.less");
+
+		//MARKUP
+		$(require("./src/base.html")({
+			headline: "Headline",
+			intro: "Introduction goes here."
+		})).appendTo(interactive.el);		
+
 	}(window.jQuery));
 
 If you look inside `index.html`, however, you'll see that it references a file called `script.js`, which does not exist in the repo. That's because you need to run the Browserify command to take the highly modular, clean code from `debug.js` and compile it into a single file:
@@ -139,11 +139,14 @@ Beyond jQuery, our apps have no dependencies on external scripts. If you want to
 
 All Time.com interactives should run inside the ```.time-interactive``` selector--that is, the class automatically assigned to the parent ```<div>```. They should not be messing with the DOM outside of this element without a specific reason to do so (such as tweaking a template).
 
+To help with that, the object returned by `time-interactive` has a method called `_$` that only looks inside the current interactive element. 
+
 One of the reasons we use LESS for stylesheets is that it allows us to easily wrap this class around all styles specific to the interactive, thus preventing them from screwing up the styling of the page. Likewise, *all jQuery selectors should start with .time-interactive.* Otherwise, there is a risk that an ID assigned to something inside the interactive will also appear elsewhere.
 
 By default, a new script requires the ```time-interactive``` script [included in this repo](/index.js), which contains some convenience functions for getting started. Running `var interactive = time("my_test_app")` adds the necessary classes and ids to the parent `<div>` and removes the screenshot that is included on page load. 
 
-###How to handle multiple instances of the same interactive on one page
+### How to handle multiple instances of the same interactive on one page
+
 
 	(function($) {
 		// loop through all instances of this app on the page in case we're using it multiple times

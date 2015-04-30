@@ -4,18 +4,6 @@
 	// base CSS file
 	require("./src/interactive.less")
 
-	// Modernizr tests
-	require("browsernizr/test/svg");
-	require("browsernizr/test/canvas");
-	require("browsernizr/test/audio");
-	require("browsernizr/test/geolocation");
-	require("browsernizr/test/postmessage");
-	require("browsernizr/test/websockets");
-	require("browsernizr/test/touchevents");
-	require("browsernizr/test/webgl");
-
-	var Modernizr = require('browsernizr');
-
 	// this assumes there is already a <div> on the page with the correct id, which Wordpress should have created (see README)
 	module.exports = function(id, opts) {
 		if (!id || (typeof id !== "string" && typeof id !== "object")) {
@@ -86,7 +74,6 @@
 			page_height: jQuery(document).height(),
 			aspect_ratio: jQuery(document).width() / jQuery(document).height(),
 			params: $el.data() || {},
-			detections: Modernizr,
 			onresize: function(f, delay) {
 				delay = typeof delay === undefined ? 100 : delay;
 				var resizeTimer;
