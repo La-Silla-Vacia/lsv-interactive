@@ -14,10 +14,11 @@
 		</div>
 	    <script type="text/javascript" src="//use.typekit.net/tke5zmh.js"></script>
 	    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+	    <!-- if you want to test how this works when the script loads before the DOM, just move the following three <script> elements to the <head> -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script>
-			//Time.com pages use jquery in noConflict mode
-			$.noConflict();
+		<script>			
+			$.noConflict(); //Time.com pages use jquery in noConflict mode
 		</script>
 		<script src="script.js"></script>
 	</body>

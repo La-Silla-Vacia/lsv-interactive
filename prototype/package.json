@@ -4,9 +4,9 @@
     "description": "",
     "repository": {},
     "dependencies": {
-        "time-interactive": "0.1.0",
-        "browserify": "8.0.x",
-        "node-lessify": ">=0.0.9",
+        "time-interactive": "0.1.1",
+        "browserify": "^10.2.0",
+        "node-lessify": "0.0.10",
         "node-underscorify": "~0.0.12",
         "node-csvify": "~0.0.2"
     },

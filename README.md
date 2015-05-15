@@ -3,7 +3,7 @@ Guide to Time.com Interactives
 
 [![Build Status](https://travis-ci.org/TimeMagazine/time-interactive.png)](https://travis-ci.org/TimeMagazine/time-interactive) [![Dependency Status](https://david-dm.org/TimeMagazine/time-interactive.svg)](https://david-dm.org/TimeMagazine/time-interactive)
 
-v0.1.0
+v0.1.1
 
 Our interactives at Time are developed independently from the CMS and bundled into self-assembling Javascript files using [browserify](https://www.npmjs.org/package/browserify). They are both discrete--requiring no dependencies--and discreet--interfering as little as possible with the rest of the page. 
 
@@ -36,10 +36,12 @@ This script creates a handful of files:
 
 ### How it works
 
-Run `time-interactive my_test_app ./apps` and you'll see that it creates a folder called `my_test_app` in the `apps` directory (which it will also create if such a directory doesn't exist). That new folder includes a `debug.js` that looks like this:
+Run `time-interactive my_test_app ./apps` and you'll see that it creates a folder called `my_test_app` in the `apps` directory (which it will also create if such a directory doesn't exist). That new folder includes a `debug.js` that looks, in part, like this:
 
-	(function($) {
+	function load_time_interactive($) {
 		var time = require('time-interactive');
+		/* require() anything else you want here, like d3 */
+		//var d3   = require('d3');
 
 		var interactive = time("#my_test_app");
 
@@ -55,7 +57,8 @@ Run `time-interactive my_test_app ./apps` and you'll see that it creates a folde
 			intro: "Introduction goes here."
 		})).appendTo(interactive.el);		
 
-	}(window.jQuery));
+		// the rest of your amazing code here
+	}
 
 If you look inside `index.html`, however, you'll see that it references a file called `script.js`, which does not exist in the repo. That's because you need to run the Browserify command to take the highly modular, clean code from `debug.js` and compile it into a single file:
 
@@ -64,6 +67,27 @@ If you look inside `index.html`, however, you'll see that it references a file c
 That command uses the [node-lessify](https://www.npmjs.org/package/node-lessify) module that Chris Wilson maintains to compile the LESS syntax in `styles.less` into valid CSS and wrap it in Javascript that appends that CSS to the DOM at run time. This will happen automatically when you run the `browserify` command inside the `my_test_app` directory.
 
 Once you've compiled that script, you can preview the app by opening `index.html`. It is recommended that you do so on a local server instead of via the `file://` schema. 
+
+You'll note that there's some more code below. This is to figure out when to run the interactive, because it needs to be able to load in a variety of Javascript environments. In some cases, it even loads after jQuery's `.ready()` function has already fired since system's like Wordpress often bookstrap on external scripts late the game.
+
+	// this code will execute time_interactive() when the DOM is ready. You're welcome to modify it, but generally you shouldn't have to
+	(function($) {
+		var time_interactive_loaded = false;
+
+		// check if the DOM element we need is there
+		if ($("#my_test_app").length) {
+			//console.log("Document was already ready.");
+			load_time_interactive($);
+		} else {
+			// there might be a better event here to listen for
+			console.log("The document wasn't ready yet when my_test_app loaded, so we'll wait for it.")
+			$(document).ready(function() {
+				console.log("Document now ready for my_test_app");
+				load_time_interactive($);
+			});
+		}
+	}(window.jQuery));
+
 
 ## The `interactive` object
 
@@ -147,15 +171,13 @@ By default, a new script requires the ```time-interactive``` script [included in
 
 ### How to handle multiple instances of the same interactive on one page
 
-
-	(function($) {
+	function load_time_interactive($) {
 		// loop through all instances of this app on the page in case we're using it multiple times
 		$("#<%= interactive_id %>").each(function(i, el) {
 			var time = require('time-interactive');
 
 			var interactive = time(el),
-				_$ = interactive._$,
-				_d3 = interactive._d3;
+				_$ = interactive._$;
 
 			//CSS
 			require("./src/styles.less");
@@ -166,4 +188,7 @@ By default, a new script requires the ```time-interactive``` script [included in
 				intro: "Introduction goes here."
 			})).appendTo(interactive.el);		
 		});
-	}(window.jQuery));
+	}
+
+## Update log
+**v0.1.1**: Added check to see if DOM has loaded.
