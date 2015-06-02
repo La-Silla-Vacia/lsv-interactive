@@ -4,13 +4,43 @@
 	// base CSS file
 	require("./src/interactive.less")
 
-	// this assumes there is already a <div> on the page with the correct id, which Wordpress should have created (see README)
-	module.exports = function(id, opts) {
+	// this code will execute callback() when the DOM is ready, which can happen at different times in different environments due to the way Wordpress bootstraps the script
+	module.exports = function(id, callback) {
 		if (!id || (typeof id !== "string" && typeof id !== "object")) {
 			console.log("Whoops -- you need to give time-interactive a string id of the element on the page in which to self-assemble or the element itself.");
 			return;
 		}
-		opts = opts || {};
+
+		if (typeof id === "string") {
+			// make el, a $ object
+			var sel = id[0] !== "#" ? ("#" + id) : id,
+				$el = jQuery(sel);
+		} else if (typeof id === "object") {
+			var $el = jQuery(id);			
+		}
+
+		var dom_element_is_ready = $el.length > 0;
+
+		// check if the DOM element we need is there
+		if (dom_element_is_ready) {
+			//console.log("Document was already ready.");
+			callback(jQuery, bootstrap_interactive(id));
+		} else {
+			// there might be a better event here to listen for
+			console.log("The document wasn't ready yet when " + id + " loaded, so we'll wait for it.")
+			$(document).ready(function() {
+				console.log("Document now ready for death_penalty_charts");
+				callback(jQuery, bootstrap_interactive(id));
+			});
+		}
+	}
+
+	// this assumes there is already a <div> on the page with the correct id, which Wordpress should have created (see README)
+	function bootstrap_interactive(id, opts) {
+		if (!id || (typeof id !== "string" && typeof id !== "object")) {
+			console.log("Whoops -- you need to give time-interactive a string id of the element on the page in which to self-assemble or the element itself.");
+			return;
+		}
 
 		if (typeof id === "string") {
 			// make el, a $ object
@@ -30,8 +60,7 @@
 		// ought to already have this, but let's be sure
 		$el.addClass("time-interactive");
 
-		// remove the default screenshot placed by the short code unless you specify you want to keep
-		if (!opts.keepScreenshot) {
+		if (!opts || !opts.keepScreenshot) {
 			// remove screenshot
 			$el.find(".screenshot").remove();	
 		}
@@ -86,7 +115,6 @@
 			}
 		};
 	}
-
 
 	/* CONVENIENCE FUNCTIONS */
 
