@@ -3,7 +3,7 @@ Guide to Time.com Interactives
 
 [![Build Status](https://travis-ci.org/TimeMagazine/time-interactive.png)](https://travis-ci.org/TimeMagazine/time-interactive) [![Dependency Status](https://david-dm.org/TimeMagazine/time-interactive.svg)](https://david-dm.org/TimeMagazine/time-interactive)
 
-v0.1.1
+v0.1.2
 
 Our interactives at Time are developed independently from the CMS and bundled into self-assembling Javascript files using [browserify](https://www.npmjs.org/package/browserify). They are both discrete--requiring no dependencies--and discreet--interfering as little as possible with the rest of the page. 
 
@@ -191,4 +191,5 @@ By default, a new script requires the ```time-interactive``` script [included in
 	}
 
 ## Update log
+**v0.1.2**: Institutionalized the DOM check in `index.js`
 **v0.1.1**: Added check to see if DOM has loaded.
