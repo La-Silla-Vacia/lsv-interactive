@@ -5,15 +5,22 @@ var mkdirp = require("mkdirp");
 var _ = require("underscore");
 var ncp = require('ncp').ncp;
 
+var args = require('minimist')(process.argv.slice(2));
 var opts = JSON.parse(fs.readFileSync(__dirname + "/../package.json", "utf8"));
 
-if (process.argv.length < 3) {
+if (args.v || args.version) {
+	console.log("v" + opts.version);
+	return;
+}
+
+if (!args._.length) {
 	console.log("Please enter an id.");
 	return false;
 }
+
 var app_dir = "./";  // default to the the current directory
-if (process.argv.length > 3) {
-	app_dir = process.argv[3];
+if (args._.length > 1) {
+	app_dir = args._[1];
     // make sure app_dir ends with a / delimiter
     if (app_dir.slice(-1) != '/') {
         app_dir += '/';
@@ -21,7 +28,7 @@ if (process.argv.length > 3) {
 }
 
 var data = {
-		interactive_id: process.argv[2],
+		interactive_id: args._[0],
 		version: opts.version || "*"
 	};
 

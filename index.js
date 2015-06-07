@@ -1,5 +1,3 @@
-// v0.1.0
-
 (function() {
 	// base CSS file
 	require("./src/interactive.less")
