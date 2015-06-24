@@ -9,6 +9,10 @@
 			return;
 		}
 
+		if (typeof callback !== 'function') {
+			console.log("Warning!  You did not provide a callback function as the second parameter.  Your interactive might not work properly because you won't be notified that the initialization has completed if the jQuery(document).ready() has already been fired.");
+		}
+
 		if (typeof id === "string") {
 			// make el, a $ object
 			var sel = id[0] !== "#" ? ("#" + id) : id,
@@ -19,17 +23,19 @@
 
 		var dom_element_is_ready = $el.length > 0;
 
-		// check if the DOM element we need is there
-		if (dom_element_is_ready) {
-			//console.log("Document was already ready.");
-			callback(jQuery, bootstrap_interactive(id));
-		} else {
-			// there might be a better event here to listen for
-			console.log("The document wasn't ready yet when " + id + " loaded, so we'll wait for it.")
-			$(document).ready(function() {
-				console.log("Document now ready for death_penalty_charts");
+		if (typeof callback === 'function') {
+			// check if the DOM element we need is there
+			if (dom_element_is_ready) {
+				//console.log("Document was already ready.");
 				callback(jQuery, bootstrap_interactive(id));
-			});
+			} else {
+				// there might be a better event here to listen for
+				console.log("The document wasn't ready yet when " + id + " loaded, so we'll wait for it.")
+				$(document).ready(function () {
+					console.log("Document now ready for death_penalty_charts");
+					callback(jQuery, bootstrap_interactive(id));
+				});
+			}
 		}
 	}
 
