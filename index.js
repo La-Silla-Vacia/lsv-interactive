@@ -3,7 +3,7 @@
 	require("./src/interactive.less")
 
 	// this code will execute callback() when the DOM is ready, which can happen at different times in different environments due to the way Wordpress bootstraps the script
-	module.exports = function(id, callback) {
+	module.exports = function(id, callback, skipCheckForReady) {
 		if (!id || (typeof id !== "string" && typeof id !== "object")) {
 			console.log("Whoops -- you need to give time-interactive a string id of the element on the page in which to self-assemble or the element itself.");
 			return;
@@ -19,6 +19,14 @@
 				$el = jQuery(sel);
 		} else if (typeof id === "object") {
 			var $el = jQuery(id);			
+		}
+
+		// if an optional parameter with the value true was passed
+		if (skipCheckForReady) {
+			// we are not waiting for $(document).ready()
+			return callback(jQuery, bootstrap_interactive(id));
+			// instead the callback function will make sure that the DOM won't be manipulated
+			// until $(document).ready() has been called
 		}
 
 		var dom_element_is_ready = $el.length > 0;
