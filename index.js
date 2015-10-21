@@ -4,6 +4,8 @@
 
 	// this code will execute callback() when the DOM is ready, which can happen at different times in different environments due to the way Wordpress bootstraps the script
 	module.exports = function(id, callback, skipCheckForReady) {
+		var interactiveLoaded = false;
+
 		if (!id || (typeof id !== "string" && typeof id !== "object")) {
 			console.log("Whoops -- you need to give time-interactive a string id of the element on the page in which to self-assemble or the element itself.");
 			return;
@@ -24,6 +26,7 @@
 		// if an optional parameter with the value true was passed
 		if (skipCheckForReady) {
 			// we are not waiting for $(document).ready()
+			interactiveLoaded = true;
 			return callback(jQuery, bootstrap_interactive(id));
 			// instead the callback function will make sure that the DOM won't be manipulated
 			// until $(document).ready() has been called
@@ -35,13 +38,13 @@
 			// check if the DOM element we need is there
 			if (dom_element_is_ready) {
 				//console.log("Document was already ready.");
-				callback(jQuery, bootstrap_interactive(id));
+				!interactiveLoaded && callback(jQuery, bootstrap_interactive(id));
 			} else {
 				// there might be a better event here to listen for
 				console.log("The document wasn't ready yet when " + id + " loaded, so we'll wait for it.")
 				$(document).ready(function () {
 					console.log("Document now ready for death_penalty_charts");
-					callback(jQuery, bootstrap_interactive(id));
+					!interactiveLoaded && callback(jQuery, bootstrap_interactive(id));
 				});
 			}
 		}
@@ -53,6 +56,8 @@
 			console.log("Whoops -- you need to give time-interactive a string id of the element on the page in which to self-assemble or the element itself.");
 			return;
 		}
+
+		console.log("Loading interactive", id);
 
 		if (typeof id === "string") {
 			// make el, a $ object
