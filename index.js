@@ -1,6 +1,6 @@
 (function() {
 	// base CSS file
-	require("./src/interactive.less")
+	require("./src/interactive.less");
 
 	// this code will execute callback() when the DOM is ready, which can happen at different times in different environments due to the way Wordpress bootstraps the script
 	module.exports = function(id, callback, skipCheckForReady) {
@@ -57,8 +57,6 @@
 			return;
 		}
 
-		console.log("Loading interactive", id);
-
 		if (typeof id === "string") {
 			// make el, a $ object
 			var sel = id[0] !== "#" ? ("#" + id) : id,
@@ -71,6 +69,8 @@
 			console.log("Whoops -- the time-interactive function couldn't find a <div> on this page for the element it was given. You probably mistyped it in debug.js.");
 			return;
 		}
+
+		console.log("Loading interactive", id);
 
 		var el = $el.get(0);
 
