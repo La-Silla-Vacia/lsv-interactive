@@ -4,8 +4,6 @@
 
 	// this code will execute callback() when the DOM is ready, which can happen at different times in different environments due to the way Wordpress bootstraps the script
 	module.exports = function(id, callback, skipCheckForReady) {
-		var interactiveLoaded = false;
-
 		if (!id || (typeof id !== "string" && typeof id !== "object")) {
 			console.log("Whoops -- you need to give time-interactive a string id of the element on the page in which to self-assemble or the element itself.");
 			return;
@@ -15,40 +13,42 @@
 			console.log("Warning!  You did not provide a callback function as the second parameter.  Your interactive might not work properly because you won't be notified that the initialization has completed if the jQuery(document).ready() has already been fired.");
 		}
 
-		if (typeof id === "string") {
+		//once you know that everything is loaded
+		var checkForReady = function() {
+			// check if the $(document).ready() event has occurred
+			if ($.isReady || skipCheckForReady) {  //http://stackoverflow.com/questions/8373910/in-jquery-how-do-i-check-if-the-dom-is-ready
+				$("body").trigger("time-interactive-ready");  // trigger the time-interactive-ready event
+			} else {
+				// the $(document).ready() event has not yet occurred
+				// so let's install an event handler
+				$(document).ready(function() {
+					$("body").trigger("time-interactive-ready"); // trigger the time-interactive-ready event
+				});
+			}
+		};
+
+		$("body").on("time-interactive-ready", "", function(event) {
+			// once the interactive is ready, let's tell the hosting page that we are done
+			// this could be used for ad rendering etc.
+			if (typeof TIME !== "undefined") {
+				Time.trigger("timeInteractive:ready", interactiveName, {/* optional other data that the hosting page can use */});
+			}
+
+			if (typeof id === "string") {
 			// make el, a $ object
 			var sel = id[0] !== "#" ? ("#" + id) : id,
 				$el = jQuery(sel);
-		} else if (typeof id === "object") {
-			var $el = jQuery(id);			
-		}
-
-		// if an optional parameter with the value true was passed
-		if (skipCheckForReady) {
-			// we are not waiting for $(document).ready()
-			interactiveLoaded = true;
-			return callback(jQuery, bootstrap_interactive(id));
-			// instead the callback function will make sure that the DOM won't be manipulated
-			// until $(document).ready() has been called
-		}
-
-		var dom_element_is_ready = $el.length > 0;
-
-		if (typeof callback === 'function') {
-			// check if the DOM element we need is there
-			if (dom_element_is_ready) {
-				//console.log("Document was already ready.");
-				!interactiveLoaded && callback(jQuery, bootstrap_interactive(id));
-			} else {
-				// there might be a better event here to listen for
-				console.log("The document wasn't ready yet when " + id + " loaded, so we'll wait for it.")
-				$(document).ready(function () {
-					console.log("Document now ready for death_penalty_charts");
-					!interactiveLoaded && callback(jQuery, bootstrap_interactive(id));
-				});
+			} else if (typeof id === "object") {
+				var $el = jQuery(id);			
 			}
-		}
-	}
+
+			callback(jQuery, bootstrap_interactive(id));
+
+		});
+
+		checkForReady();
+
+
 
 	// this assumes there is already a <div> on the page with the correct id, which Wordpress should have created (see README)
 	function bootstrap_interactive(id, opts) {
@@ -78,7 +78,6 @@
 		$el.addClass("time-interactive");
 
 		if (!opts || !opts.keepScreenshot) {
-			// remove screenshot
 			$el.find(".screenshot").remove();	
 		}
 
@@ -87,29 +86,9 @@
 			return $el.find(selector);
 		};
 
-
-		var _d3 = {
-			select: function(selector) { 
-				if (d3) {
-					return d3.select(el).select(selector);
-				} else {
-					console.log("d3 isn't defined, so _d3 is confused");
-					return null;
-				}
-			},
-			selectAll: function(selector) { 
-				if (d3) {
-					return d3.select(el).selectAll(selector);
-				} else {
-					console.log("d3 isn't defined, so _d3 is confused");
-					return null;
-				}
-			}			
-		};
-
 		// return the DOM object
 		return {
-			version: "0.0.8",
+			version: "0.1.7",
 			id: id,
 			el: el,
 			_$: _$,
@@ -131,7 +110,8 @@
 				});
 			}
 		};
-	}
+
+	});
 
 	/* CONVENIENCE FUNCTIONS */
 
