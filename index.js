@@ -16,18 +16,18 @@
 		//once you know that everything is loaded
 		var checkForReady = function() {
 			// check if the $(document).ready() event has occurred
-			if ($.isReady || skipCheckForReady) {  //http://stackoverflow.com/questions/8373910/in-jquery-how-do-i-check-if-the-dom-is-ready
-				$("body").trigger("time-interactive-ready");  // trigger the time-interactive-ready event
+			if (jQuery.isReady || skipCheckForReady) {  //http://stackoverflow.com/questions/8373910/in-jquery-how-do-i-check-if-the-dom-is-ready
+				jQuery("body").trigger("time-interactive-ready");  // trigger the time-interactive-ready event
 			} else {
 				// the $(document).ready() event has not yet occurred
 				// so let's install an event handler
-				$(document).ready(function() {
-					$("body").trigger("time-interactive-ready"); // trigger the time-interactive-ready event
+				jQuery(document).ready(function() {
+					jQuery("body").trigger("time-interactive-ready"); // trigger the time-interactive-ready event
 				});
 			}
 		};
 
-		$("body").on("time-interactive-ready", "", function(event) {
+		jQuery("body").on("time-interactive-ready", "", function(event) {
 			// once the interactive is ready, let's tell the hosting page that we are done
 			// this could be used for ad rendering etc.
 			if (typeof TIME !== "undefined") {
@@ -47,7 +47,7 @@
 		});
 
 		checkForReady();
-
+	}
 
 
 	// this assumes there is already a <div> on the page with the correct id, which Wordpress should have created (see README)
@@ -92,7 +92,6 @@
 			id: id,
 			el: el,
 			_$: _$,
-			_d3: _d3,
 			width: function() { return $el.width(); },
 			height: function() { return $el.height(); },
 			page_width: jQuery(document).width(),
@@ -111,7 +110,7 @@
 			}
 		};
 
-	});
+	}
 
 	/* CONVENIENCE FUNCTIONS */
 
