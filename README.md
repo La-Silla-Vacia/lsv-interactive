@@ -3,7 +3,7 @@ Guide to Time.com Interactives
 
 [![Build Status](https://travis-ci.org/TimeMagazine/time-interactive.png)](https://travis-ci.org/TimeMagazine/time-interactive) [![Dependency Status](https://david-dm.org/TimeMagazine/time-interactive.svg)](https://david-dm.org/TimeMagazine/time-interactive)
 
-v0.1.6
+v0.1.9
 
 Our interactives at Time are developed independently from the CMS and bundled into self-assembling Javascript files using [browserify](https://www.npmjs.org/package/browserify). They are both discrete--requiring no dependencies--and discreet--interfering as little as possible with the rest of the page. 
 
@@ -104,8 +104,6 @@ Use of the `time()` function is not strictly necessary for an app, but it's very
 + `params`: Object with any key-value parameters from the WP shortcode (see below)
 + `detections`: a few useful Modernizr tests: audio, canvas, geolocation, postmessage, svg, touchevents, webgl, websockets
 + `_$`: A jQuery selector that only looks inside the current element. `_$(selector)` is shorthand for `$(el).find(selector)` 
-+ `_d3`: A d3 selector that only looks inside the current element. `_d3.selectAll(selector)` is shorthand for `d3.select(el).selectAll(selector)` 
-
 
 ## Automatic browserify-ification
 
@@ -191,6 +189,7 @@ By default, a new script requires the ```time-interactive``` script [included in
 	}
 
 ## Update log
+**v0.1.9**: Code now includes DOM check
 **v0.1.4**: Fixed version problem
 **v0.1.2**: Institutionalized the DOM check in `index.js`
 **v0.1.1**: Added check to see if DOM has loaded.
