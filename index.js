@@ -27,6 +27,9 @@
 			}
 		};
 
+    // Prevent multiple event bindings
+    jQuery("body").off("time-interactive-ready");
+
 		jQuery("body").on("time-interactive-ready", "", function(event) {
 			// once the interactive is ready, let's tell the hosting page that we are done
 			// this could be used for ad rendering etc.
