@@ -73,12 +73,20 @@
 			return;
 		}
 
+    if ($el.hasClass("time-interactive--rendered")) {
+      console.log("Interactive already rendered -- skipping");
+      return;
+    }
+
 		console.log("Loading interactive", id);
 
 		var el = $el.get(0);
 
 		// ought to already have this, but let's be sure
 		$el.addClass("time-interactive");
+
+    // add rendered class
+    $el.addClass("time-interactive--rendered");
 
 		if (!opts || !opts.keepScreenshot) {
 			$el.find(".screenshot").remove();
