@@ -27,6 +27,9 @@
 			}
 		};
 
+    // Prevent multiple event bindings
+    jQuery("body").off("time-interactive-ready");
+
 		jQuery("body").on("time-interactive-ready", "", function(event) {
 			// once the interactive is ready, let's tell the hosting page that we are done
 			// this could be used for ad rendering etc.
@@ -39,7 +42,7 @@
 			var sel = id[0] !== "#" ? ("#" + id) : id,
 				$el = jQuery(sel);
 			} else if (typeof id === "object") {
-				var $el = jQuery(id);			
+				var $el = jQuery(id);
 			}
 
 			callback(jQuery, bootstrap_interactive(id));
@@ -62,13 +65,18 @@
 			var sel = id[0] !== "#" ? ("#" + id) : id,
 				$el = jQuery(sel);
 		} else if (typeof id === "object") {
-			var $el = jQuery(id);			
+			var $el = jQuery(id);
 		}
 
 		if ($el.length === 0) {
 			console.log("Whoops -- the time-interactive function couldn't find a <div> on this page for the element it was given. You probably mistyped it in debug.js.");
 			return;
 		}
+
+    if ($el.hasClass("time-interactive--rendered")) {
+      console.log("Interactive already rendered -- skipping");
+      return;
+    }
 
 		console.log("Loading interactive", id);
 
@@ -77,12 +85,15 @@
 		// ought to already have this, but let's be sure
 		$el.addClass("time-interactive");
 
+    // add rendered class
+    $el.addClass("time-interactive--rendered");
+
 		if (!opts || !opts.keepScreenshot) {
-			$el.find(".screenshot").remove();	
+			$el.find(".screenshot").remove();
 		}
 
-		// _$ and _d3 will only find elements inside the main div. 
-		var _$ = function(selector) { 
+		// _$ and _d3 will only find elements inside the main div.
+		var _$ = function(selector) {
 			return $el.find(selector);
 		};
 
@@ -101,9 +112,9 @@
 			onresize: function(f, delay) {
 				delay = typeof delay === undefined ? 100 : delay;
 				var resizeTimer;
-				$(window).resize(function() { 
+				$(window).resize(function() {
 					clearTimeout(resizeTimer);
-					resizeTimer = setTimeout(function() {				
+					resizeTimer = setTimeout(function() {
 						f($el.width(), $el.height());
 					}, delay);
 				});
@@ -132,7 +143,7 @@
 		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 		    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
 		    return v.toString(16);
-		});		
+		});
 	}
 
 }());
