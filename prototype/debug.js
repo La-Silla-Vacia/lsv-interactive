@@ -4,11 +4,11 @@
 var time = require('time-interactive');
 
 // All of your DOM-sensitive javascript goes in the time_interactive function below. It will be executed at the appropriate time. 
-// It will be passed the $ jQuery shortcode plus an interactive helper object
+// It will be passed the `$` shortcut for `jQuery` plus an interactive helper object
 
 time("#<%= interactive_id %>", function($, interactive) {
 	"use strict";
-	var _$  = interactive._$;		// _$ will only find elements inside the current el.
+	var _$  = interactive._$; // _$ will only find elements inside the current el.
 
 	//CSS
 	require("./src/styles.less");

@@ -4,13 +4,17 @@
     "description": "",
     "repository": {},
     "dependencies": {
-        "time-interactive": "0.1.9",
-        "browserify": "^10.2.0",
+        "time-interactive": "0.1.9b",
         "node-lessify": "0.0.10",
         "node-underscorify": "~0.0.12",
         "node-csvify": "~0.0.2"
     },
-    "scripts" : {},
+    "scripts" : {
+        "build": "browserify debug.js > script.js --debug",
+        "uglify": "uglifyjs script.js > script-min.js",
+        "upload": "aws s3 sync . s3://time-static-shared/interactives/$npm_package_name/ --exclude '*node_modules/*' --exclude='*git/*' --exclude='*DS_Store/*'",
+        "deploy": "npm run build && npm run uglify && npm run upload"
+    },
     "browserify": {
         "transform": ["node-lessify", "node-underscorify", "node-csvify"]
     }

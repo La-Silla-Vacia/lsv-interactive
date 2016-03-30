@@ -109,6 +109,7 @@
 			page_height: jQuery(document).height(),
 			aspect_ratio: jQuery(document).width() / jQuery(document).height(),
 			params: $el.data() || {},
+			is_touch_device: is_touch_device(),
 			onresize: function(f, delay) {
 				delay = typeof delay === undefined ? 100 : delay;
 				var resizeTimer;
@@ -122,6 +123,12 @@
 		};
 
 	}
+
+	// http://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
+	function is_touch_device() {
+	  return 'ontouchstart' in window        // works on most browsers 
+	      || navigator.maxTouchPoints;       // works on IE10/11 and Surface
+	};
 
 	/* CONVENIENCE FUNCTIONS */
 
