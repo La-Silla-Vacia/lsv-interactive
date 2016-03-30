@@ -99,7 +99,7 @@
 
 		// return the DOM object
 		return {
-			version: "0.1.7",
+			version: "0.1.9a",
 			id: id,
 			el: el,
 			_$: _$,
