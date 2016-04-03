@@ -12,6 +12,8 @@ This repository provides both a [command-line script](https://github.com/TimeMag
 Please see the [wiki](https://github.com/TimeMagazine/time-interactive/wiki) for instructions on installation and usage. 
 
 ## Update log
++ **v0.2.1**: Restored `browserify` since `npm run` appears to look for a local copy, and added two new scripts: `dryrun` and `stage`
++ **v0.2.0**: Removed `browserify` from prototype `package.json`
 + **v0.1.9c**: Cleaned up the prototype `package.json`
 + **v0.1.9b**: Moved most of README to wiki and added shortcut scripts to default `package.json`
 + **v0.1.9a**: Prevent script from running twice (thx @arlandi !)
