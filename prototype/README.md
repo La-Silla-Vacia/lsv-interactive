@@ -3,24 +3,11 @@ Source files for <%= interactive_id %>
 
 ##Installation and setup
 
-Clone the repository anywhere you want it (if you didn't create it in the first place with the `time-interactive` CLI).
+See the [time-interactive wiki](https://github.com/TimeMagazine/time-interactive/wiki) for how to bootstrap a project.
 
-	git clone git@git.time-sandbox.com:timelabs/<%= interactive_id %>.git
+##Description
 
-Then switch to that directory and install the dependencies
+Please provide a short description of this project
 
-	cd <%= interactive_id %> && npm install
-
-##Developing and building the app
-
-This interactive is developed with [browserify](https://github.com/substack/node-browserify), which allows you to `require()` dependencies in a Node-like manner. The code lives in `debug.js`.
-
-Any time you want to deploy, you need to bundle the `debug.js` file into a single script file that the browser can understand, like so:
-
-With source mapping for debugging:
-
-	browserify debug.js > script.js --debug
-
-Minified (after running `npm install -g uglifyjs` once)
-
-	browserify debug.js | uglifyjs > script.js
+##Data
+Please link to any external data used, as well as scripts for cleaning and analyzing that data, all of which should live in the `/data` directory.

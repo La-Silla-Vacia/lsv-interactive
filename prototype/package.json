@@ -5,7 +5,7 @@
     "repository": {},
     "dependencies": {
         "browserify": "^13.0.0",
-        "time-interactive": "0.2.2",
+        "time-interactive": "0.2.3",
         "node-lessify": "^0.1.4",
         "node-underscorify": "~0.0.12",
         "node-csvify": "^0.0.6"
@@ -13,8 +13,9 @@
     "scripts" : {
         "build": "browserify debug.js > script.js --debug",
         "uglify": "uglifyjs script.js > script-min.js",
-        "dryrun": "aws s3 sync . s3://time-static-shared/interactives/$npm_package_name/ --exclude '*node_modules/*' --exclude='*git/*' --exclude='*DS_Store/*' --dryrun", 
-        "upload": "aws s3 sync . s3://time-static-shared/interactives/$npm_package_name/ --exclude '*node_modules/*' --exclude='*git/*' --exclude='*DS_Store/*'",
+        "dryrun": "aws s3 sync . s3://time-static-shared/interactives/$npm_package_name/ --exclude '*node_modules/*' --exclude='*git/*' --exclude='*DS_Store*' --dryrun", 
+        "upload": "aws s3 sync . s3://time-static-shared/interactives/$npm_package_name/ --exclude '*node_modules/*' --exclude='*git/*' --exclude='*DS_Store*'",
+        "minimal": "npm run build && npm run uglify && aws s3 sync . s3://time-static-shared/interactives/$npm_package_name/ --exclude '*' --include='script.js --include='script-min.js' --include='screenshot.png' --include='index.html'",
         "stage": "npm run build && npm run uglify && aws s3 sync . s3://time-static-shared/interactives/staging/$npm_package_name/ --exclude '*node_modules/*' --exclude='*git/*' --exclude='*DS_Store/*'",
         "deploy": "npm run build && npm run uglify && npm run upload"
     },
