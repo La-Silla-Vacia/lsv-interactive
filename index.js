@@ -17,25 +17,23 @@
         var checkForReady = function() {
             // check if the $(document).ready() event has occurred
             if (jQuery.isReady || skipCheckForReady) { //http://stackoverflow.com/questions/8373910/in-jquery-how-do-i-check-if-the-dom-is-ready
-                jQuery("body").trigger("time-interactive-ready"); // trigger the time-interactive-ready event
+                fire_interactive();
             } else {
                 // the $(document).ready() event has not yet occurred
                 // so let's install an event handler
                 jQuery(document).ready(function() {
-                    jQuery("body").trigger("time-interactive-ready"); // trigger the time-interactive-ready event
+                    fire_interactive();
                 });
             }
         };
 
-        // Prevent multiple event bindings
-        jQuery("body").off("time-interactive-ready");
-
-        jQuery("body").on("time-interactive-ready", "", function(event) {
-            console.log("Interactive is ready");
+        function fire_interactive() {
+            console.log("Interactive", id, "is ready");
             // once the interactive is ready, let's tell the hosting page that we are done
             // this could be used for ad rendering etc.
-            if (typeof TIME !== "undefined") {
-                Time.trigger("timeInteractive:ready", interactiveName, { /* optional other data that the hosting page can use */ });
+            
+            if (typeof Time !== "undefined") {
+                Time.trigger("timeInteractive:ready", id, { /* optional other data that the hosting page can use */ });
             }
 
             if (typeof id === "string") {
@@ -47,8 +45,7 @@
             }
 
             callback(jQuery, bootstrap_interactive(id));
-
-        });
+        }
 
         checkForReady();
     }
