@@ -28,11 +28,11 @@
         };
 
         function fire_interactive() {
-            console.log("Interactive", id, "is ready");
+            //console.log("Interactive", id, "is ready");
             // once the interactive is ready, let's tell the hosting page that we are done
-            // this could be used for ad rendering etc.
             
             if (typeof Time !== "undefined") {
+                // this could be used for ad rendering etc.
                 Time.trigger("timeInteractive:ready", id, { /* optional other data that the hosting page can use */ });
             }
 
@@ -72,7 +72,7 @@
         }
 
         if ($el.hasClass("time-interactive--rendered")) {
-            console.log("Interactive already rendered -- skipping");
+            console.log("Interactive", id, "already rendered -- skipping");
             return;
         }
 
@@ -92,7 +92,7 @@
 
         // return the DOM object
         return {
-            version: "0.2.4",
+            version: "0.2.5",
             id: id,
             el: el,
             width: function() {
