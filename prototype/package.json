@@ -19,8 +19,8 @@
         "stage": "npm run build && npm run uglify && aws s3 sync . s3://time-static-shared/interactives/staging/$npm_package_name/ --exclude '*node_modules/*' --exclude='*git/*' --exclude='*DS_Store/*'",
         "deploy": "npm run build && npm run uglify && npm run upload",
         "test": "browserify debug.js > script-min.js --debug && npm run upload",
-        "url": "http://time-static-shared.s3-website-us-east-1.amazonaws.com/interactives/$npm_package_name/",
-        "staging_url": "http://time-static-shared.s3-website-us-east-1.amazonaws.com/interactives/staging/$npm_package_name/"        
+        "url": "echo http://time-static-shared.s3-website-us-east-1.amazonaws.com/interactives/$npm_package_name/",
+        "staging_url": "echo http://time-static-shared.s3-website-us-east-1.amazonaws.com/interactives/staging/$npm_package_name/"        
     },
     "browserify": {
         "transform": ["node-lessify", "node-underscorify", "node-csvify"]
