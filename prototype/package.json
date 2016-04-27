@@ -5,7 +5,7 @@
     "repository": {},
     "dependencies": {
         "browserify": "^13.0.0",
-        "time-interactive": "0.2.5",
+        "time-interactive": "0.2.8",
         "node-lessify": "^0.1.4",
         "node-underscorify": "~0.0.12",
         "node-csvify": "^0.0.6"
