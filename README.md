@@ -13,6 +13,7 @@ This repository provides both a [command-line script](https://github.com/TimeMag
 Please see the [wiki](https://github.com/TimeMagazine/time-interactive/wiki) for instructions on installation and usage. 
 
 ## Update log
++ **v0.2.9**: Removed unneeded trigger from index.js and fixed up prototype a bit. Added iframe version.
 + **v0.2.8**: Updated package dependency
 + **v0.2.7**: Fixed echo in npm scripts
 + **v0.2.6**: Added some more npm commands

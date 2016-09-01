@@ -30,11 +30,12 @@
         function fire_interactive() {
             //console.log("Interactive", id, "is ready");
             // once the interactive is ready, let's tell the hosting page that we are done
+            // v0.2.9 this is breaking on other sites so removing for now -- CW
             
-            if (typeof Time !== "undefined") {
-                // this could be used for ad rendering etc.
-                Time.trigger("timeInteractive:ready", id, { /* optional other data that the hosting page can use */ });
-            }
+            // if (typeof Time !== "undefined") {
+            //     // this could be used for ad rendering etc.
+            //     Time.trigger("timeInteractive:ready", id, { /* optional other data that the hosting page can use */ });
+            // }
 
             if (typeof id === "string") {
                 // make el, a $ object
@@ -92,7 +93,7 @@
 
         // return the DOM object
         return {
-            version: "0.2.8",
+            version: "0.2.9",
             id: id,
             el: el,
             width: function() {
