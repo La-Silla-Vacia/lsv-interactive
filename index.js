@@ -2,23 +2,17 @@
     // base CSS file
     require("./src/interactive.less");
 
-    // We're not counting on jQuery anymore, so this is a fillin for $.ready
-    // per http://stackoverflow.com/a/28543394/1779735
-    function ready(fn) {
-        if (document.readyState != 'loading') {
-            fn();
-        } else if (document.addEventListener) {            
-            document.addEventListener('DOMContentLoaded', fn);
-        } else {
-            document.attachEvent('onreadystatechange', function() {
-                if (document.readyState != 'loading')
-                    fn();
-            });
-        }
+    function onDocumentReady(fn) {
+        // Check to see if the body is ready. If not, try again in 100ms.
+        var stateCheck = setInterval( function() {
+            if ( 'complete' === document.readyState ) {
+                clearInterval( stateCheck );
+                fn();
+            }
+        }, 100 );        
     }    
 
-    // this code will execute callback() when the DOM is ready, using the above function
-    // skipCheckForReady ignores this
+    // this code will execute callback() when the DOM is ready, using the above function. skipCheckForReady ignores this
     module.exports = function(id, callback, skipCheckForReady) {
         if (!id || (typeof id !== "string")) {
             console.log("Whoops -- you need to give time-interactive a string id of the element on the page in which to self-assemble or the element itself.");
@@ -39,19 +33,11 @@
             if (skipCheckForReady) {
                 fire_interactive();
             } else {
-                ready(fire_interactive);
+                onDocumentReady(fire_interactive);
             }
         };
 
-        function fire_interactive() {
-            //console.log("Interactive", id, "is ready");
-            // once the interactive is ready, let's tell the hosting page that we are done
-            // v0.2.9 this is breaking on other sites so removing for now -- CW
-            
-            // if (typeof Time !== "undefined") {
-            //     // this could be used for ad rendering etc.
-            //     Time.trigger("timeInteractive:ready", id, { /* optional other data that the hosting page can use */ });
-            // }
+        function fire_interactive() {          
             callback(bootstrap_interactive(id));
         }
 
@@ -94,14 +80,13 @@
 
         // return the DOM object
         return {
-            version: "0.3.0",
+            version: "0.3.1",
             id: id,
             el: el,
             width: function() { return el.offsetWidth; },
             height: function() { return el.offsetHeight; },
             page_width: document.body.offsetWidth,
             page_height: document.body.offsetHeight,
-            //aspect_ratio: document.body.offsetWidth / document.body.offsetHeight,
             params: params,
             is_touch_device: is_touch_device(),
             onresize: function(f, delay) {

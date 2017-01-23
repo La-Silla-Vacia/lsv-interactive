@@ -1,4 +1,4 @@
-/*global require,jQuery,$,console*/
+/*global require,console*/
 
 var time = require('time-interactive');
 

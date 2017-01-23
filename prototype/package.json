@@ -5,9 +5,9 @@
     "repository": {},
     "dependencies": {
         "browserify": "^13.1.1",
-        "time-interactive": "0.3.0",
+        "time-interactive": "0.3.1",
         "node-lessify": "^0.1.4",
-        "node-underscorify": "~0.0.12",
+        "node-underscorify": "^0.0.14",
         "node-csvify": "^0.0.6"
     },
     "scripts" : {
