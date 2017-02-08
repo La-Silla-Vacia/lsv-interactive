@@ -84,4 +84,9 @@ mkdirp(path, function() {
 	 }
 	});
 
+	ncp(__dirname + "/../prototype/screenshot.png", path + "/screenshot.png", function (err) {
+	 if (err) {
+	   return console.error(err);
+	 }
+	});
 });

@@ -56,7 +56,7 @@
 
         // ought to already have this, but let's be sure
         if (!/\btime-interactive\b/.test(el.className)) {
-            console.log("Warning: The <div> with the id", id, "didn't have the time-interactive class, which is weird.");
+            // console.log("Warning: The <div> with the id", id, "didn't have the time-interactive class, which is weird.");
             el.className += " time-interactive";
         }
 
@@ -66,6 +66,12 @@
         } else {
             el.className += " time-interactive--rendered";
             console.log("Loading interactive", id);
+        }
+
+        // remove screenshot
+        var screenshot = el.getElementsByTagName("img");
+        if (screenshot && screenshot[0]) {
+            el.removeChild(screenshot[0]);
         }
 
         // get params
@@ -80,7 +86,7 @@
 
         // return the DOM object
         return {
-            version: "0.3.1",
+            version: "0.3.2",
             id: id,
             el: el,
             width: function() { return el.offsetWidth; },
