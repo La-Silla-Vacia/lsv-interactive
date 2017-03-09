@@ -15,4 +15,4 @@ time("<%= interactive_id %>", function(interactive) {
 	//MARKUP
 	interactive.el.innerHTML = require("./src/base.html")();	
 
-}, false); // change this last param to true if you want to skip the DOM checks
+}, true); // change this last param to true if you want to skip the DOM checks
