@@ -60,17 +60,20 @@ mkdirp(path, function() {
 		 	if (err) {
 		   		return console.error(err);
 		 	}
+		});
+	});
 
-		 	/*
-		 	// test the bundling
-			var browserify = require('browserify');		 
+	mkdirp(path + "/webpack", function() {
+		ncp(__dirname + "/../prototype/webpack/dev.config.js", path + "/webpack/dev.config.js", function (err) {
+		 	if (err) {
+		   		return console.error(err);
+		 	}
+		});
 
-			var b = browserify();
-			b.add(path + "/debug.js");
-			b.bundle();	
-
-			console.log("Successfully created a new app named " + data.interactive_id + " in " + app_dir);
-			*/
+		ncp(__dirname + "/../prototype/webpack/production.config.js", path + "/webpack/production.config.js", function (err) {
+		 	if (err) {
+		   		return console.error(err);
+		 	}
 		});
 	});
 
