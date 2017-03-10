@@ -4,10 +4,11 @@
     "description": "",
     "repository": {},
     "dependencies": {
-        "time-interactive": "0.3.2"
+        "time-interactive": "0.4.0a"
     },
     "scripts" : {
         "build": "./node_modules/.bin/webpack --config webpack/dev.config.js",
+        "watch": "./node_modules/.bin/webpack --config webpack/dev.config.js --watch",
         "minify": "./node_modules/.bin/webpack --config webpack/production.config.js",
         "dryrun": "aws s3 sync . s3://time-static-shared/interactives/$npm_package_name/ --exclude '*node_modules/*' --exclude='*git/*' --exclude='*DS_Store*' --dryrun", 
         "upload": "aws s3 sync . s3://time-static-shared/interactives/$npm_package_name/ --exclude '*node_modules/*' --exclude='*git/*' --exclude='*DS_Store*'",
