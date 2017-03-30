@@ -1,14 +1,14 @@
 {
-  "name": "time-interactive",
-  "version": "0.4.0a",
-  "description": "Interactive bootstrap files for Time.com",
+  "name": "lsv-interactive",
+  "version": "0.4.3a",
+  "description": "Interactive bootstrap files for lasillavacia.com",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/TimeMagazine/time-interactive.git"
+    "url": "https://github.com/La-Silla-Vacia/lsv-interactive.git"
   },
   "bin": {
-    "time-interactive": "./bin/generate.js"
+    "lsv-interactive": "./bin/generate.js"
   },
   "dependencies": {
     "minimist": "^1.1.1",
@@ -17,9 +17,9 @@
     "underscore": ">=1.5.1"
   },
   "author": {
-    "name": "Chris Wilson",
-    "email": "wilson@mechanicalscribe.com",
-    "url": "http://mechanicalscribe.com"
+    "name": "Wietse Neven",
+    "email": "hello@wietseneven.com",
+    "url": "https://wietseneven.com"
   },
   "scripts": {
     "test": "rm -rf test &&  ./bin/generate.js -v && ./bin/generate.js my_test_app ./test/"

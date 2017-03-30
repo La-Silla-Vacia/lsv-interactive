@@ -1,0 +1,11 @@
+/* all interactives will be wrapped in a <div> with class "lsv-interactive" */
+.lsv-interactive {
+  width: 100%;
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+
+  & svg {
+    overflow: hidden;
+  }
+}

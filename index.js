@@ -1,6 +1,6 @@
 (function() {
     // base CSS file
-    require("./src/interactive.less");
+    require("./src/interactive.css");
 
     function onDocumentReady(fn) {
         // Check to see if the body is ready. If not, try again in 100ms.
@@ -15,7 +15,7 @@
     // this code will execute callback() when the DOM is ready, using the above function. skipCheckForReady ignores this
     module.exports = function(id, callback, skipCheckForReady) {
         if (!id || (typeof id !== "string")) {
-            console.log("Whoops -- you need to give time-interactive a string id of the element on the page in which to self-assemble or the element itself.");
+            console.log("Whoops -- you need to give lsv-interactive a string id of the element on the page in which to self-assemble or the element itself.");
             return;
         }
 
@@ -25,7 +25,7 @@
         }
 
         if (typeof callback !== 'function') {
-            console.log("Warning! You did not provide a callback function as the second parameter to time-interactive.");
+            console.log("Warning! You did not provide a callback function as the second parameter to lsv-interactive.");
         }
 
         //once you know that everything is loaded
@@ -50,21 +50,21 @@
         var el = document.getElementById(id);
 
         if (!el) {
-            console.log("Whoops -- the time-interactive function couldn't find a <div> with the id you provided. You probably mistyped it in debug.js.");
+            console.log("Whoops -- the lsv-interactive function couldn't find a <div> with the id you provided. You probably mistyped it in debug.js.");
             return;
         }
 
         // ought to already have this, but let's be sure
-        if (!/\btime-interactive\b/.test(el.className)) {
-            // console.log("Warning: The <div> with the id", id, "didn't have the time-interactive class, which is weird.");
-            el.className += " time-interactive";
+        if (!/\blsv-interactive\b/.test(el.className)) {
+            // console.log("Warning: The <div> with the id", id, "didn't have the lsv-interactive class, which is weird.");
+            el.className += " lsv-interactive";
         }
 
-        if (/\btime-interactive--rendered\b/.test(el.className)) {
+        if (/\blsv-interactive--rendered\b/.test(el.className)) {
             console.log("Interactive", id, "already rendered -- skipping");
             return;
         } else {
-            el.className += " time-interactive--rendered";
+            el.className += " lsv-interactive--rendered";
             console.log("Loading interactive", id);
         }
 

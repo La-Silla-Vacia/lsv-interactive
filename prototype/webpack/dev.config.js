@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack'); //to access built-in plugins
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 //process.traceDeprecation = true;
 
@@ -9,6 +10,12 @@ const config = {
     //path: __dirname,
     filename: './script.js'
   },
+  resolve: {
+    alias: {
+      'react': 'preact',
+      'react-dom': 'preact-compat'
+    }
+  },
   devtool: 'inline-source-map',
   module: {
     loaders: [
@@ -17,43 +24,54 @@ const config = {
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
         options: {
-          presets: [ [ 'es2015', { modules: false, loose: true  } ] ]
-
+          presets: [['es2015', 'react']],
+          plugins: [["transform-react-jsx", { "pragma": "h" }]]
         }
       },
       {
-          test: /\.json$/,
-          loaders: [ 'json-loader' ]
+        test: /\.json$/,
+        loaders: ['json-loader']
       },
-      { 
-          test: /\.css$/,
-          loaders: [ 'style-loader', 'css-loader', 'autoprefixer-loader' ]
-      },
-      { 
-          test: /\.less$/,
-          loaders: [ 'style-loader', 'css-loader', 'autoprefixer-loader', 'less-loader' ]
+      // {
+      //   test: /\.css$/,
+      //   loaders: ['style-loader', 'css-loader', 'postcss-loader']
+      // },
+      {
+        test: /\.css$/,
+        loader: ['style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader']
       },
       {
-          test: /\.scss$/,
-          loaders: [ 'style-loader', 'css-loader', 'autoprefixer-loader', 'sass-loader' ]
-      },
-      { 
-          test: /\.html$/,
-          loaders: [ 'underscore-template-loader' ] 
+        test: /\.less$/,
+        loaders: ['style-loader', 'css-loader', 'autoprefixer-loader', 'less-loader']
       },
       {
-          test: /\.(csv|tsv)$/,
-          loaders: [ 'dsv-loader' ]
+        test: /\.scss$/,
+        loaders: ['style-loader', 'css-loader', 'autoprefixer-loader', 'sass-loader']
+      },
+      {
+        test: /\.html$/,
+        loaders: ['underscore-template-loader']
+      },
+      {
+        test: /\.(csv|tsv)$/,
+        loaders: ['dsv-loader']
       }
     ]
   },
   plugins: [
     new webpack.LoaderOptionsPlugin({
-        minimize: false,
-        debug: true
-        //devtool: 'inline-source-map'
+      minimize: false,
+      debug: true
+      //devtool: 'inline-source-map'
+    }),
+    new BrowserSyncPlugin({
+      // browse to http://localhost:3000/ during development,
+      // ./public directory is being served
+      host: 'localhost',
+      port: 3000,
+      server: { baseDir: [''] }
     })
- ]
+  ]
 };
 
 module.exports = config;

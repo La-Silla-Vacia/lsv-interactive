@@ -3,7 +3,7 @@ Source files for <%= interactive_id %>
 
 ## Installation and setup
 
-See the [time-interactive wiki](https://github.com/TimeMagazine/time-interactive/wiki) for how to bootstrap a project.
+See the [lsv-interactive wiki](https://github.com/La-Silla-Vacia/lsv-interactive/wiki) for how to bootstrap a project.
 
 ## Description
 

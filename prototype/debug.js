@@ -1,18 +1,22 @@
 /*global require,console*/
 
-var time = require('time-interactive');
+var lsv = require('lsv-interactive');
+import { h, render } from 'preact';
+import Base from './src/base';
 
-require("./src/styles.less"); // this goes outside the callback since otherwise the interactive sometimes fires before the CSS is fully loaded
+require("./src/styles.css"); // this goes outside the callback since otherwise the interactive sometimes fires before the CSS is fully loaded
 
-time("<%= interactive_id %>", function(interactive) {
-	"use strict";
+lsv("<%= interactive_id %>", function (interactive) {
+  "use strict";
 
-	if (!interactive) {
-		console.log("Interactive <%= interactive_id %> not initiated. Exiting.");
-		return;
-	}
+  if (!interactive) {
+    console.log("Interactive <%= interactive_id %> not initiated. Exiting.");
+    return;
+  }
 
-	//MARKUP
-	interactive.el.innerHTML = require("./src/base.html")();	
+  //MARKUP
+  render((
+    <Base />
+  ), interactive.el);
 
 }, true); // change this last param to true if you want to skip the DOM checks
