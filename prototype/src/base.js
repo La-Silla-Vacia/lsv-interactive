@@ -1,17 +1,11 @@
-import { h, render, Component } from 'preact';
-import { Toggle } from 'lsv-components';
+import { h, render } from 'preact';
 
-import s from './styles.css';
+import s from './base.css';
 
-class Base extends Component {
-
-  render(props, state) {
-    return (
-      <div className={s.container}>
-        Hello world
-      </div>
-    );
-  }
-}
+const Base = () => (
+  <div className={s.container}>
+    Hello world
+  </div>
+);
 
 export default Base;
