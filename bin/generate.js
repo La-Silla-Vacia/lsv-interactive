@@ -35,7 +35,7 @@ var data = {
 
 var index = _.template(fs.readFileSync(__dirname + "/../prototype/index.html", "utf8")),
 	debug = _.template(fs.readFileSync(__dirname + "/../prototype/debug.js", "utf8")),
-	styles = _.template(fs.readFileSync(__dirname + "/../prototype/src/styles.css", "utf8")),
+	styles = _.template(fs.readFileSync(__dirname + "/../prototype/src/base.css", "utf8")),
 	pkg = _.template(fs.readFileSync(__dirname + "/../prototype/package.json", "utf8")),
 	readme = _.template(fs.readFileSync(__dirname + "/../prototype/README.md", "utf8")),
 	postcssConfig = _.template(fs.readFileSync(__dirname + "/../prototype/postcss.config.js", "utf8"));
@@ -56,7 +56,7 @@ mkdirp(path, function() {
 	fs.writeFileSync(path + "/postcss.config.js", postcssConfig(data));
 
 	mkdirp(path + "/src", function() {
-		fs.writeFileSync(path + "/src/styles.css", styles(data));
+		fs.writeFileSync(path + "/src/base.css", styles(data));
 
 		ncp(__dirname + "/../prototype/src/base.js", path + "/src/base.js", function (err) {
 		 	if (err) {
