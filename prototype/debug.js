@@ -4,7 +4,8 @@ var lsv = require('lsv-interactive');
 import { h, render } from 'preact';
 import Base from './src/base';
 
-require("./src/styles.css"); // this goes outside the callback since otherwise the interactive sometimes fires before the CSS is fully loaded
+require("./src/base.css"); // this goes outside the callback since otherwise the interactive sometimes fires before the CSS is fully loaded
+require("./src/global.css");
 
 lsv("<%= interactive_id %>", function (interactive) {
   "use strict";

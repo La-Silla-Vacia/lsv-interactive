@@ -5,7 +5,7 @@ const config = {
   entry: './debug.js',
   output: {
     // path: path.resolve(__dirname, '../dist'),
-    filename: './script-min.js'
+    filename: './dist/script-min.js'
   },
   resolve: {
     alias: {
@@ -30,8 +30,13 @@ const config = {
       },
       {
         test: /\.css$/,
-        // loaders: [ 'style-loader', 'css-loader', 'postcss-loader'
-        loader: ['style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader']
+        loader: ['style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'],
+        exclude: /global/,
+      },
+      {
+        test: /\.css$/,
+        loader: ['style-loader', 'style-loader','css-loader?importLoaders=1','postcss-loader'],
+        include: /global/,
       },
       {
         test: /\.less$/,
