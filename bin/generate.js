@@ -39,7 +39,8 @@ var index = _.template(fs.readFileSync(__dirname + "/../prototype/index.html", "
 	globalStyles = _.template(fs.readFileSync(__dirname + "/../prototype/src/global.css", "utf8")),
 	pkg = _.template(fs.readFileSync(__dirname + "/../prototype/package.json", "utf8")),
 	readme = _.template(fs.readFileSync(__dirname + "/../prototype/README.md", "utf8")),
-	postcssConfig = _.template(fs.readFileSync(__dirname + "/../prototype/postcss.config.js", "utf8"));
+	postcssConfig = _.template(fs.readFileSync(__dirname + "/../prototype/postcss.config.js", "utf8")),
+  data = _.template(fs.readFileSync(__dirname + "/../prototype/data/data.json"));
 
 
 var path = app_dir + data.interactive_id;
@@ -85,9 +86,9 @@ mkdirp(path, function() {
 		});
 	});
 
-	// mkdirp(path + "/data", function() {
-  //
-	// });
+	mkdirp(path + "/data", function() {
+    fs.writeFileSync(path + "/data/data.json", data(data));
+	});
 
 	ncp(__dirname + "/../prototype/gitignore", path + "/.gitignore", function (err) {
 	 if (err) {

@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack'); //to access built-in plugins
 
 const config = {
-  entry: './debug.js',
+  entry: ['whatwg-fetch', './debug.js'],
   output: {
     // path: path.resolve(__dirname, '../dist'),
     filename: './dist/script-min.js'
@@ -37,14 +37,6 @@ const config = {
         test: /\.css$/,
         loader: ['style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'],
         exclude: /global/,
-      },
-      {
-        test: /\.less$/,
-        loaders: ['style-loader', 'css-loader', 'autoprefixer-loader', 'less-loader']
-      },
-      {
-        test: /\.scss$/,
-        loaders: ['style-loader', 'css-loader', 'autoprefixer-loader', 'sass-loader']
       },
       {
         test: /\.html$/,
