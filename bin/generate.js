@@ -28,19 +28,20 @@ if (args._.length > 1) {
 
 var data = {
 		interactive_id: args._[0],
+		date: (new Date()).toString().split(' ').splice(1,3).join(' '),
 		version: opts.version || "*"
 	};
 
 
 var index = _.template(fs.readFileSync(__dirname + "/../prototype/index.html", "utf8")),
-	indexDist = _.template(fs.readFileSync(__dirname + "/../prototype/dist/index.html", "utf8")),
 	debug = _.template(fs.readFileSync(__dirname + "/../prototype/debug.js", "utf8")),
 	styles = _.template(fs.readFileSync(__dirname + "/../prototype/src/base.css", "utf8")),
+	baseJs = _.template(fs.readFileSync(__dirname + "/../prototype/src/base.js", "utf8")),
 	globalStyles = _.template(fs.readFileSync(__dirname + "/../prototype/src/global.css", "utf8")),
 	pkg = _.template(fs.readFileSync(__dirname + "/../prototype/package.json", "utf8")),
+  interactiveData = _.template(fs.readFileSync(__dirname + "/../prototype/data/data.json", "utf8")),
 	readme = _.template(fs.readFileSync(__dirname + "/../prototype/README.md", "utf8")),
-	postcssConfig = _.template(fs.readFileSync(__dirname + "/../prototype/postcss.config.js", "utf8")),
-  interactiveData = _.template(fs.readFileSync(__dirname + "/../prototype/data/data.json"));
+	postcssConfig = _.template(fs.readFileSync(__dirname + "/../prototype/postcss.config.js", "utf8"));
 
 
 var path = app_dir + data.interactive_id;
@@ -58,18 +59,12 @@ mkdirp(path, function() {
 	fs.writeFileSync(path + "/postcss.config.js", postcssConfig(data));
 
 	mkdirp(path+ "/dist", function() {
-    fs.writeFileSync(path + "/dist/index.html", indexDist(data));
 	});
 
 	mkdirp(path + "/src", function() {
 		fs.writeFileSync(path + "/src/base.css", styles(data));
 		fs.writeFileSync(path + "/src/global.css", globalStyles(data));
-
-		ncp(__dirname + "/../prototype/src/base.js", path + "/src/base.js", function (err) {
-		 	if (err) {
-		   		return console.error(err);
-		 	}
-		});
+		fs.writeFileSync(path + "/src/base.js", baseJs(data));
 	});
 
 	mkdirp(path + "/webpack", function() {

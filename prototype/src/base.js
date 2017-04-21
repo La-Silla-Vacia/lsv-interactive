@@ -42,12 +42,11 @@ export default class Base {
     fetch(uri)
       .then((response) => {
         return response.json()
-      }).then((json) => {
-        this.setState({ data: json });
-      }).catch((ex) => {
-        console.log('parsing failed', ex)
-      })
-    }
+    }).then((json) => {
+      this.setState({ data: json });
+    }).catch((ex) => {
+      console.log('parsing failed', ex)
+    })
   }
 
   render(props, state) {

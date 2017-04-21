@@ -5,7 +5,7 @@ const config = {
   entry: ['whatwg-fetch', './debug.js'],
   output: {
     // path: path.resolve(__dirname, '../dist'),
-    filename: './dist/script-min.js'
+    filename: './dist/script.js'
   },
   resolve: {
     alias: {

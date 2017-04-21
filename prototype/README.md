@@ -19,13 +19,13 @@ To embed on a webpage use this code:
 ```html
 <!-- START OF OUR INTERACTIVE -->
 <script type="text/javascript">
-var window.<%= interactive_id %>_data = {
+window.<%= interactive_id %>_data = {
   "name": <%= interactive_id %>
 }
 </script>
 <div class="lsv-interactive" id="<%= interactive_id %>">
 <img src="https://la-silla-vacia.github.io/<%= interactive_id %>/screenshot.png" class="screenshot" style="width:100%;">
 </div>
-<script defer type="text/javascript" src="https://la-silla-vacia.github.io/<%= interactive_id %>/script-min.js"></script>
+<script defer type="text/javascript" src="https://la-silla-vacia.github.io/<%= interactive_id %>/script.js"></script>
 <!-- END OF OUR INTERACTIE -->
 ```
