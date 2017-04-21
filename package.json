@@ -1,6 +1,6 @@
 {
   "name": "lsv-interactive",
-  "version": "0.5.0",
+  "version": "0.5.0d",
   "description": "Interactive bootstrap files for lasillavacia.com",
   "main": "index.js",
   "repository": {
