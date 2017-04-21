@@ -85,9 +85,9 @@ mkdirp(path, function() {
 		});
 	});
 
-	mkdirp(path + "/data", function() {
-
-	});
+	// mkdirp(path + "/data", function() {
+  //
+	// });
 
 	ncp(__dirname + "/../prototype/gitignore", path + "/.gitignore", function (err) {
 	 if (err) {

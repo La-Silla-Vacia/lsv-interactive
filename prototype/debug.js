@@ -17,7 +17,7 @@ lsv("<%= interactive_id %>", function (interactive) {
 
   //MARKUP
   render((
-    <Base {...interactive} />
+    <Base meta={...interactive} />
   ), interactive.el);
 
 }, true); // change this last param to true if you want to skip the DOM checks
