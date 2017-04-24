@@ -1,11 +1,13 @@
-import { h, render } from 'preact';
+import { h, render, Component } from 'preact';
 
 import s from './base.css';
 const data = require('../data/data.json');
 
-export default class Base {
+export default class Base extends Component {
 
   constructor() {
+    super();
+
     this.state = {
       data: []
     }
