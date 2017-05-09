@@ -32,7 +32,7 @@ To embed on a webpage use this code:
 <!-- START OF OUR INTERACTIVE -->
 <script type="text/javascript">
 window.<%= interactive_id %>_data = {
-  "name": <%= interactive_id %>
+  "name": "<%= interactive_id %>"
 }
 </script>
 <div class="lsv-interactive" id="<%= interactive_id %>">
