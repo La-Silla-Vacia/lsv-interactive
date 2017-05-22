@@ -2,7 +2,10 @@
   "name": "<%= interactive_id %>",
   "version": "0.0.0",
   "description": "",
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/la-silla-vacia/<%= interactive_id %>.git"
+  },
   "dependencies": {
     "lsv-components": "latest",
     "lsv-interactive": "latest",
