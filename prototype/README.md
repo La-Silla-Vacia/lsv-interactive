@@ -9,19 +9,21 @@ Please provide a short description of this project
 Please link to any external data used, as well as scripts for cleaning and analyzing that data, all of which should live in the `/data` directory.
 
 ## Installation
-After cloning the repository run:
+First, make sure you have [Node.js](https://nodejs.org/) and [Yarn](https://yarnpkg.com/en/) installed on your operating system.
+
+After cloning the repository run inside the directory:
 ```
-npm install
+yarn install
 ```
 
 To start watching the project and opening in the browser run:
 ```
-npm start
+yarn start
 ```
 
-To deploy to GitHub pages run:
+To deploy to GitHub Pages run:
 ```
-npm run deploy
+yarn run deploy
 ```
 
 ---
