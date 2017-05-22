@@ -111,7 +111,8 @@ exec(cmd, function(error, stdout, stderr) {
   // command output is in stdout
   if (error) throw error;
   console.log(stdout);
-  console.log('Installing dependencies done! Now starting the development server');
+  console.log('Installing dependencies done! Now starting the development server.');
+  console.log('To stop the server, press \'ctrl+c\'');
   exec(`cd ${path} && npm start`, function(error, stdout, stderr) {
     if (error) throw error;
     console.log('Development server started! Enjoy working on the project!');
