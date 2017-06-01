@@ -1,4 +1,5 @@
 import { h, render, Component } from 'preact';
+import cn from 'classnames';
 
 import s from './base.css';
 
@@ -54,7 +55,7 @@ export default class Base extends Component {
 
     let content = (
       <img src="https://raw.githubusercontent.com/la-silla-vacia/lsv-interactive/master/misc/lsvi-loading.gif"
-      alt="Interactive is loading" style="width:100%;max-width: 320px;margin: 4em auto;display: block;">
+      alt="Interactive is loading" style="width:100%;max-width: 320px;margin: 4em auto;display: block;" />
     );
 
     if (!loading) {
@@ -62,7 +63,7 @@ export default class Base extends Component {
     }
 
     return(
-      <div className={s.container}>
+      <div className={cn(s.container, {[s.loading]: loading})}>
         { content }
       </div>
     )
