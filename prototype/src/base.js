@@ -8,7 +8,8 @@ export default class Base extends Component {
     super();
 
     this.state = {
-      data: []
+      data: [],
+      loading: true
     }
   }
 
@@ -41,7 +42,7 @@ export default class Base extends Component {
         return response.json()
       })
       .then((json) => {
-        this.setState({ data: json });
+        this.setState({ data: json, loading: false });
       })
       .catch((ex) => {
         console.log('parsing failed', ex)
@@ -49,9 +50,20 @@ export default class Base extends Component {
   }
 
   render(props, state) {
+    const { loading } = state;
+
+    let content = (
+      <img src="https://raw.githubusercontent.com/la-silla-vacia/lsv-interactive/master/misc/lsvi-loading.gif"
+      alt="Interactive is loading" style="width:100%;max-width: 320px;margin: 4em auto;display: block;">
+    );
+
+    if (!loading) {
+        content = (<div>Hello <%= interactive_id %>!</div>)
+    }
+
     return(
       <div className={s.container}>
-        Hello <%= interactive_id %>!
+        { content }
       </div>
     )
   }
