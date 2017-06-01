@@ -60,6 +60,7 @@ mkdirp(path, function () {
   fs.writeFileSync(path + "/postcss.config.js", postcssConfig(data));
 
   mkdirp(path + "/dist", function () {
+    fs.closeSync(fs.openSync(path + "/dist/.gitkeep", 'w'));
   });
 
   mkdirp(path + "/src", function () {

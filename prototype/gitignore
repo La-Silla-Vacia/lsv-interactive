@@ -17,4 +17,5 @@ node_modules
 script.js
 script-min.js
 
-dist
+dist/*
+!dist/.gitkeep
