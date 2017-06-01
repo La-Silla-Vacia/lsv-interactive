@@ -1,7 +1,6 @@
 import { h, render, Component } from 'preact';
 
 import s from './base.css';
-const data = require('../data/data.json');
 
 export default class Base extends Component {
 
@@ -20,7 +19,6 @@ export default class Base extends Component {
   setData() {
     let dataExists = true;
     let interactiveData;
-    let dataUri;
     try {
       if (<%= interactive_id %>_data) {
         dataExists = true;
@@ -30,12 +28,9 @@ export default class Base extends Component {
       dataExists = false;
     }
 
-    if (!dataExists) {
-      this.setState({data: data});
-    } else {
+    if (dataExists) {
       if (interactiveData.dataUri) {
-        dataUri = interactiveData.dataUri;
-        this.fetchData(dataUri);
+        this.fetchData(interactiveData.dataUri);
       }
     }
   }
@@ -44,11 +39,13 @@ export default class Base extends Component {
     fetch(uri)
       .then((response) => {
         return response.json()
-    }).then((json) => {
-      this.setState({ data: json });
-    }).catch((ex) => {
-      console.log('parsing failed', ex)
-    })
+      })
+      .then((json) => {
+        this.setState({ data: json });
+      })
+      .catch((ex) => {
+        console.log('parsing failed', ex)
+      })
   }
 
   render(props, state) {

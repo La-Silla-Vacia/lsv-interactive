@@ -257,13 +257,14 @@
                 <!-- START OF OUR INTERACTIVE -->
                 <script type="text/javascript">
                   window.<%= interactive_id %>_data = {
-                    "name": "<%= interactive_id %>"
+                    "dataUri": "./data/data.json"
                   }
                 </script>
                 <div class="lsv-interactive" id="<%= interactive_id %>">
-                  <img src="screenshot.png" class="screenshot" style="width:100%;">
+                  <img src="https://raw.githubusercontent.com/la-silla-vacia/lsv-interactive/master/misc/lsvi-loading.gif"
+                       alt="Interactive is loading" style="width:100%;max-width: 320px;margin: 4em auto;display: block;">
                 </div>
-                <script defer type="text/javascript" src="script.js"></script>
+                <!--<script defer type="text/javascript" src="script.js"></script>-->
                 <!-- END OF OUR INTERACTIE -->
 
               </div>

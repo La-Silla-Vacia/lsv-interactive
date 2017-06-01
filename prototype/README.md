@@ -1,9 +1,10 @@
 Source files for <%= interactive_id %>
 =====
 
-## Description
+## Preview
 
-Please provide a short description of this project
+[You can find a preview of '<%= interactive_id %>' here](https://la-silla-vacia.github.com/<%= interactive_id %>)
+
 ![](https://raw.githubusercontent.com/la-silla-vacia/<%= interactive_id %>/master/screenshot.png)
 
 ## Data
@@ -29,17 +30,18 @@ yarn run deploy
 
 ---
 
-## Embeding on LSV
+## Embeding on webpage
 To embed on a webpage use this code:
 ```html
 <!-- START OF OUR INTERACTIVE -->
 <script type="text/javascript">
 window.<%= interactive_id %>_data = {
-  "name": "<%= interactive_id %>"
+  "dataUri": "https://raw.githubusercontent.com/la-silla-vacia/<%= interactive_id %>/master/data/data.json"
 }
 </script>
 <div class="lsv-interactive" id="<%= interactive_id %>">
-<img src="https://la-silla-vacia.github.io/<%= interactive_id %>/screenshot.png" class="screenshot" style="width:100%;">
+<img src="https://raw.githubusercontent.com/la-silla-vacia/lsv-interactive/master/misc/lsvi-loading.gif"
+     alt="Interactive is loading" style="width:100%;max-width: 320px;margin: 4em auto;display: block;">
 </div>
 <script defer type="text/javascript" src="https://la-silla-vacia.github.io/<%= interactive_id %>/script.js"></script>
 <!-- END OF OUR INTERACTIE -->

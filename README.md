@@ -1,7 +1,7 @@
 Guide to LaSillaVacia.com Interactives
 ====
 
-// This is a customized fork from github.com/TimeMagazine/time-interactive
+_This is a customized fork from github.com/TimeMagazine/time-interactive_
 
 Our interactives at La Silla Vacia are developed independently from the CMS and bundled into self-assembling Javascript files using [webpack](https://webpack.github.io/). They are both discrete--requiring no dependencies--and discreet--interfering as little as possible with the rest of the page. 
 
