@@ -36,7 +36,7 @@ To embed on a webpage use this code:
 <!-- START OF OUR INTERACTIVE -->
 <script type="text/javascript">
 window.<%= interactive_id %>_data = {
-  "dataUri": "https://raw.githubusercontent.com/la-silla-vacia/<%= interactive_id %>/master/data/data.json"
+  "dataUri": "<%= dataUri %>"
 }
 </script>
 <div class="lsv-interactive" id="<%= interactive_id %>">

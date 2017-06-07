@@ -46,7 +46,11 @@ var schema = {
       hidden: true,
       description: `1. ${colors.cyan("In the new Spreadsheet go to the 'Settings' tab")}
         2. ${colors.cyan("Replace behind interactive name the word 'my_interactive_name' to the exact name as the interactive")}
-        3. ${colors.red.italic("Press enter if you did it")}`
+        3. ${colors.red.italic("Press enter if you did it")}`,
+      ask: function () {
+        // only ask for proxy credentials if a proxy was set
+        return prompt.history('spreadsheet').value === 'yes';
+      }
     },
     spreadsheetStep3: {
       hidden: true,
@@ -54,7 +58,11 @@ var schema = {
         `1. ${colors.cyan("Click in the top bar 'Export to production' and then 'Publish'")}
         2. ${colors.cyan("Select your account and authenticate, this only needs the first time")}
         3. ${colors.cyan("If you don't get an error, the database is published")}
-        4. ${colors.red.italic("Press enter if you did it")}`
+        4. ${colors.red.italic("Press enter if you did it")}`,
+      ask: function () {
+        // only ask for proxy credentials if a proxy was set
+        return prompt.history('spreadsheet').value === 'yes';
+      }
     },
     haveRepository: {
       message: `${colors.cyan("Have you already created a GitHub repository?")} ${colors.yellow('yes/no')}`,
@@ -216,15 +224,18 @@ function create() {
   console.log(colors.yellow("You can already start editing in your favourite editor. The entry file for you is \"src/base.js\""));
   console.log('After installing the dependencies your development server will start automatic and will open you\'re ' +
     'browser with a live reloading version of your project.');
+
+  if (repository) {
+    console.log('- Now creating the initial commit and pushing to the repository');
+    exec(`cd ${path} && git init && git remote add origin ${repository} && git add -A && git commit -m 'Initial commit from lsv-interactive' && git push --set-upstream origin master`);
+  }
+
   exec(cmd, function (error, stdout, stderr) {
     // command output is in stdout
     if (error) throw error;
     console.log(stdout);
     console.log('Installing dependencies done! Now starting the development server.');
     console.log('To stop the server, press \'ctrl+c\'');
-    if (repository) {
-      exec(`cd ${path} && git init && git remote add origin ${repository} && git add * && git commit -m 'Initial commit from lsv-interactive' && git push --set-upstream origin master`);
-    }
     exec(`cd ${path} && yarn start`, function (error, stdout, stderr) {
       if (error) throw error;
       console.log('Development server started! Enjoy working on the project!');
