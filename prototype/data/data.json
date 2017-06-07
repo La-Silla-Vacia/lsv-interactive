@@ -1,5 +1,1 @@
-[
-  {
-    "name": "<%= interactive_id %>"
-  }
-]
+[{"name":"Welkom","value":30},{"name":"At","value":20},{"name":"LSV Interactive","value":50}]

@@ -85,13 +85,17 @@ var schema = {
       default: 'yes',
       ask: function () {
         // only ask for proxy credentials if a proxy was set
-        return prompt.history('haveRepository').value === false;
+        return prompt.history('haveRepository').value === 'no';
       }
     },
     createRepository: {
       description: `1. ${colors.cyan("Go to the the La Silla Vacía organisation on GitHub")}
         2. ${colors.cyan("Create a new repository with the exact same name as the interactive")}
-        3. ${colors.red.italic("Press enter if you did it")}`
+        3. ${colors.red.italic("Press enter if you did it")}`,
+      ask: function () {
+        // only ask for proxy credentials if a proxy was set
+        return prompt.history('wantRepository').value === 'yes';
+      }
     }
   }
 };
@@ -153,12 +157,13 @@ if (args._.length > 1) {
 var index = _.template(fs.readFileSync(__dirname + "/../prototype/index.html", "utf8")),
   debug = _.template(fs.readFileSync(__dirname + "/../prototype/debug.js", "utf8")),
   styles = _.template(fs.readFileSync(__dirname + "/../prototype/src/base.css", "utf8")),
-  baseJs = _.template(fs.readFileSync(__dirname + "/../prototype/src/base.js", "utf8")),
+  baseJs = _.template(fs.readFileSync(__dirname + "/../prototype/src/base.jsx", "utf8")),
   globalStyles = _.template(fs.readFileSync(__dirname + "/../prototype/src/global.css", "utf8")),
   pkg = _.template(fs.readFileSync(__dirname + "/../prototype/package.json", "utf8")),
   interactiveData = _.template(fs.readFileSync(__dirname + "/../prototype/data/data.json", "utf8")),
   readme = _.template(fs.readFileSync(__dirname + "/../prototype/README.md", "utf8")),
-  postcssConfig = _.template(fs.readFileSync(__dirname + "/../prototype/postcss.config.js", "utf8"));
+  postcssConfig = _.template(fs.readFileSync(__dirname + "/../prototype/postcss.config.js", "utf8")),
+  getDataScript = _.template(fs.readFileSync(__dirname + "/../prototype/src/Scripts/getData.js", "utf8"));
 
 
 function create() {
@@ -181,7 +186,7 @@ function create() {
     mkdirp(path + "/src", function () {
       fs.writeFileSync(path + "/src/base.css", styles(data));
       fs.writeFileSync(path + "/src/global.css", globalStyles(data));
-      fs.writeFileSync(path + "/src/base.js", baseJs(data));
+      fs.writeFileSync(path + "/src/base.jsx", baseJs(data));
     });
 
     mkdirp(path + "/webpack", function () {
@@ -196,6 +201,14 @@ function create() {
           return console.error(err);
         }
       });
+    });
+
+    mkdirp(path + "/src/Components", function() {
+      ncp(__dirname + "/../prototype/src/Components/", path + "/src/Components");
+    });
+
+    mkdirp(path + "/src/Scripts", function() {
+      fs.writeFileSync(path + "/src/Scripts/getData.js", getDataScript(data));
     });
 
     mkdirp(path + "/data", function (err) {
@@ -221,7 +234,7 @@ function create() {
   var cmd = `cd ${path} && yarn install`;
   console.log(colors.yellow("Succesfull created the project files."));
   console.log(colors.yellow("Now installing dependencies. This can take a couple of minutes"));
-  console.log(colors.yellow("You can already start editing in your favourite editor. The entry file for you is \"src/base.js\""));
+  console.log(colors.yellow("You can already start editing in your favourite editor. The entry file for you is \"src/base.jsx\""));
   console.log('After installing the dependencies your development server will start automatic and will open you\'re ' +
     'browser with a live reloading version of your project.');
 

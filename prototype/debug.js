@@ -2,7 +2,7 @@
 
 var lsv = require('lsv-interactive');
 import { h, render } from 'preact';
-import Base from './src/base';
+import Base from './src/base.jsx';
 
 require("./src/base.css"); // this goes outside the callback since otherwise the interactive sometimes fires before the CSS is fully loaded
 require("./src/global.css");
