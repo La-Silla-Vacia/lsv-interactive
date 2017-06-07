@@ -4,7 +4,7 @@
   "description": "",
   "repository": {
     "type": "git",
-    "url": "git://github.com/la-silla-vacia/<%= interactive_id %>.git"
+    "url": "<%= repository %>"
   },
   "dependencies": {
     "lsv-components": "latest",
