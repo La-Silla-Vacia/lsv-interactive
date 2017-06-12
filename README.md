@@ -1,8 +1,6 @@
 Guide to LaSillaVacia.com Interactives
 ====
 
-_This is a customized fork from github.com/TimeMagazine/time-interactive_
-
 Our interactives at La Silla Vacia are developed independently from the CMS and bundled into self-assembling Javascript files using [webpack](https://webpack.github.io/). They are both discrete--requiring no dependencies--and discreet--interfering as little as possible with the rest of the page. 
 
 The use of webpack loader, including [babel](https://babeljs.io/), allows developers to include all the (reasonably-sized) files they need in `debug.js`: HTML, CSS, PostCSS, and any modern Javascript conventions.
