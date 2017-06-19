@@ -3,7 +3,7 @@ Source files for <%= interactive_id %>
 
 ## Preview
 
-[You can find a preview of '<%= interactive_id %>' here](https://la-silla-vacia.github.com/<%= interactive_id %>)
+[You can find a preview of '<%= interactive_id %>' here](https://la-silla-vacia.github.io/<%= interactive_id %>)
 
 ![](https://raw.githubusercontent.com/la-silla-vacia/<%= interactive_id %>/master/screenshot.png)
 

@@ -17,11 +17,10 @@ export default class Graphic extends Component {
         };
 
         return (
-          <button className={s.circle} style={style} onClick={this.handleClick.bind(false, name)}>{name}</button>
+          <button className={s.circle} key={key} style={style} onClick={this.handleClick.bind(false, name)}>{name}</button>
         )
       }
-    )
-      ;
+    );
   }
 
   render(props, state) {

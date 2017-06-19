@@ -33,7 +33,7 @@ export default class Base extends Component {
 
     let content = (loading) ? (<LoadScreen />) : (
       <div className={s.inner}>
-        <h2 className={s.title}>Hello lsvi_test!</h2>
+        <h2 className={s.title}>Hello <%= interactive_id %>!</h2>
         <Graphic data={data} />
       </div>
     );

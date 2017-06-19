@@ -21,7 +21,7 @@ var data, path, repository, dataUri;
 var schema = {
   properties: {
     name: {
-      pattern: /^[a-z_]+$/,
+      pattern: /^[a-z_0-9]+$/,
       message: 'Name must be lowercase and may not contain, spaces, numbers or normal dashes. Use _ instead.',
       required: true,
       description: colors.cyan("What is the interactive name?")
@@ -123,7 +123,7 @@ prompt.get(schema, function (err, result) {
   if (result.repository) {
     repository = result.repository;
   } else if (result.wantRepository === 'yes') {
-    repository = `git@github.com:La-Silla-Vacia/${result.name}.git`;
+    repository = `https://github.com/La-Silla-Vacia/${result.name}.git`;
   }
 
   if (result.spreadsheet === 'yes') {
