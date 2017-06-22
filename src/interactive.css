@@ -6,6 +6,6 @@
   font-weight: 400;
 
   & svg {
-    overflow: hidden;
+    overflow: visible;
   }
 }

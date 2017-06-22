@@ -1,6 +1,8 @@
 function getData(callback) {
-  let dataExists = true;
-  let interactiveData;
+  let dataExists,
+      interactiveData;
+
+  // Look if there is a global variable declared with specific data for this infographic
   try {
     if (<%= interactive_id %>_data) {
       dataExists = true;
@@ -10,12 +12,15 @@ function getData(callback) {
     dataExists = false;
   }
 
+  // If the variable exists, and has a dataUri key, download the data
   if (dataExists) {
     if (interactiveData.dataUri) {
       fetchData(interactiveData.dataUri, (data) => {
         if (callback) callback(data);
       });
     }
+  } else {
+    callback([]);
   }
 }
 

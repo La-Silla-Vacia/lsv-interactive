@@ -1,5 +1,4 @@
 /*global require,console*/
-
 var lsv = require('lsv-interactive');
 import { h, render } from 'preact';
 import Base from './src/base.jsx';

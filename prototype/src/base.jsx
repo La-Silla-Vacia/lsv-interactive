@@ -31,6 +31,7 @@ export default class Base extends Component {
   render(props, state) {
     const { loading, data } = state;
 
+    // If it's still downloading the data, show the loadscreen
     let content = (loading) ? (<LoadScreen />) : (
       <div className={s.inner}>
         <h2 className={s.title}>Hello <%= interactive_id %>!</h2>

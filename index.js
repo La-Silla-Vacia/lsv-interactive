@@ -68,12 +68,6 @@
             console.log("Loading interactive", id);
         }
 
-        // remove screenshot
-        var screenshot = el.getElementsByTagName("img");
-        if (screenshot && screenshot[0]) {
-            el.removeChild(screenshot[0]);
-        }
-
         // get params
         var params = {};
         for (var c = 0; c < el.attributes.length; c += 1) {
